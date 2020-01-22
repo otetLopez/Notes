@@ -21,7 +21,7 @@ The application should have the following features:
     • User should able as well to change the
 */
 
-class Note {
+class Note : NSObject {
     private var title : String
     private var info : String
     private var date : String
@@ -29,9 +29,9 @@ class Note {
     private var longitude : Double
     private var address : String
     private var image : String
-    private var folder : Int
+    private var folder : String
     
-    internal init(title: String, info: String, date: String, latitude: Double, longitude: Double, address: String, image: String, folder: Int) {
+    internal init(title: String, info: String, date: String, latitude: Double, longitude: Double, address: String, image: String, folder: String) {
         self.title = title
         self.info = info
         self.date = date
@@ -58,7 +58,7 @@ class Note {
     
     func getImage() -> String { return self.image }
     
-    func geFolder() -> Int { return self.folder }
+    func geFolder() -> String { return self.folder }
     
     /* Note Class Setters */
     
@@ -74,5 +74,5 @@ class Note {
     
     func setImage(image: String) { self.image = image }
     
-    func setFolder(folder: Int) { self.folder = folder }
+    func setFolder(folder: String) { self.folder = folder }
 }

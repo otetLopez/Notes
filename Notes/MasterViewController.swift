@@ -75,6 +75,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let object = folderList[indexPath.row]
+        cell.imageView?.image = UIImage(named: "folder-icon")
         cell.textLabel!.text = object.getFolderName()
         cell.detailTextLabel!.text = String(object.getNumNotes())
         return cell
@@ -87,11 +88,28 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            print("DEBUG: removing folder \(folderList[indexPath.row].getFolderName()) from \(folderList.count)")
+            deleteCoreData(format: folderList[indexPath.row].getFolderName())
             folderList.remove(at: indexPath.row)
+            print("DEBUG: removed and folder count is \(folderList.count)")
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let movedObject = self.folderList[sourceIndexPath.row]
+        folderList.remove(at: sourceIndexPath.row)
+        folderList.insert(movedObject, at: destinationIndexPath.row)
     }
 
     @IBAction func addFolder(_ sender: UIBarButtonItem) {
@@ -110,7 +128,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             print("DEBUG: Will be adding folder \(textField.text!)")
             if(self.isNameValid(fname: "\(textField.text!)")) {
                 self.addNewFolder(fname: "\(textField.text!)")
-                self.tableView.reloadData()
             }
         }
         alertController.addAction(cancelAction)
@@ -120,10 +137,21 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
     }
     
+    func updateData() {
+        if (folderList.count > 0) {
+            self.saveCoreData()
+        } else {
+            print("Clearing the Data and loading something empty")
+            self.clearCoreData()
+            self.loadCoreData()
+        }
+        self.tableView.reloadData()
+    }
+    
     func addNewFolder(fname: String) {
         let nFolder : Folder = Folder(fname: fname, notesNum: 0, notesList: [Note]() )
         folderList.append(nFolder)
-        self.saveCoreData()
+        self.updateData()
     }
     
     func isNameValid(fname: String) -> Bool {
@@ -147,6 +175,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         return [Note]()
     }
     
+    
     func loadCoreData() {
         print("DEBUG: Loading Initial Data")
         folderList = [Folder]()
@@ -161,8 +190,11 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 for result in results as! [NSManagedObject] {
                     let fname = result.value(forKey: "fname") as! String
                     let numNotes = result.value(forKey: "notesnum") as! Int
-               
+                    //let array = result.value(forKey: "notesList") as! [NSObject]
+                    //let notes = array as! [Note]
                     let notes : [Note] = self.getNotesList(folder: fname)
+                   
+                    
                     folderList.append(Folder(fname: fname, notesNum: numNotes, notesList: notes))
                 }
             }
@@ -180,6 +212,18 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 
             folderEntity.setValue(folder.getFolderName(), forKey: "fname")
             folderEntity.setValue(folder.getNumNotes(), forKey: "notesnum")
+            folderEntity.setValue(folder.getNotesList(), forKey: "noteslist")
+            // For testing purpose
+            let n1 = Note(title: "note1", info: "note1", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
+            let n2 = Note(title: "note2", info: "note2", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
+            let n3 = Note(title: "note3", info: "note3", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
+            
+            var noteTest = [Note]()
+            noteTest.append(n1)
+            noteTest.append(n2)
+            noteTest.append(n3)
+            
+            //folderEntity.setValue(noteTest, forKey: "noteslist")
             do {
                 try managedContext.save()
             } catch { print(error) }
@@ -202,6 +246,31 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             }
         } catch{ print(error)  }
         print("DEBUG: Done Clearing Core Data")
+    }
+    
+    func deleteCoreData(format: String) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let deleteRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FolderEntity")
+        // Helps filter the query
+        deleteRequest.predicate = NSPredicate(format: "fname=%@", format)
+        deleteRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(deleteRequest)
+            if results.count > 0 {
+                for idx in results as! [NSManagedObject] {
+                    // Delete the user or entity
+                    if let name = idx.value(forKey: "fname") as? String {
+                        print("DEBUG: Deleting with name \(format)")
+                        context.delete(idx)
+                        do {
+                            try context.save()
+                        } catch { print(error) }
+                        break
+                    }
+                }
+            }
+        } catch { print(error) }
     }
     
 }
