@@ -17,6 +17,7 @@
 		F597874C23D0F4A2003A4D7D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F597874B23D0F4A2003A4D7D /* Assets.xcassets */; };
 		F597874F23D0F4A2003A4D7D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F597874D23D0F4A2003A4D7D /* LaunchScreen.storyboard */; };
 		F5B257BF23D7C45C00757611 /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B257BE23D7C45C00757611 /* NotesTableViewController.swift */; };
+		F5B257C223D7CE7400757611 /* Notes_Organizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F5B257C023D7CE7400757611 /* Notes_Organizer.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		F597874E23D0F4A2003A4D7D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F597875023D0F4A2003A4D7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F5B257BE23D7C45C00757611 /* NotesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
+		F5B257C123D7CE7400757611 /* Notes_Organizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Notes_Organizer.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +52,7 @@
 			children = (
 				F505E1B623D797F80025A656 /* Note.swift */,
 				F505E1B823D798040025A656 /* Folders.swift */,
+				F5B257C023D7CE7400757611 /* Notes_Organizer.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 				F597874323D0F49C003A4D7D /* SceneDelegate.swift in Sources */,
 				F597874523D0F49C003A4D7D /* MasterViewController.swift in Sources */,
 				F597874723D0F49C003A4D7D /* DetailViewController.swift in Sources */,
+				F5B257C223D7CE7400757611 /* Notes_Organizer.xcdatamodeld in Sources */,
 				F505E1B723D797F80025A656 /* Note.swift in Sources */,
 				F5B257BF23D7C45C00757611 /* NotesTableViewController.swift in Sources */,
 			);
@@ -362,6 +366,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F5B257C023D7CE7400757611 /* Notes_Organizer.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F5B257C123D7CE7400757611 /* Notes_Organizer.xcdatamodel */,
+			);
+			currentVersion = F5B257C123D7CE7400757611 /* Notes_Organizer.xcdatamodel */;
+			path = Notes_Organizer.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F597873523D0F49C003A4D7D /* Project object */;
 }

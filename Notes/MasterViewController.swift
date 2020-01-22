@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var detailViewController: DetailViewController? = nil
     var folderList = [Folder]()
@@ -19,8 +20,10 @@ class MasterViewController: UITableViewController {
         // Do any additional setup after loading the view.
         navigationItem.rightBarButtonItem = editButtonItem
 
-//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-//        navigationItem.rightBarButtonItem = addButton
+        // Initialize Core Data Accesses
+        loadCoreData()
+        
+        // This is in an attempt to implement a split view
         if let split = splitViewController {
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
@@ -114,11 +117,13 @@ class MasterViewController: UITableViewController {
         alertController.addAction(addItemAction)
             
         self.present(alertController, animated: true, completion: nil)
+        
     }
     
     func addNewFolder(fname: String) {
         let nFolder : Folder = Folder(fname: fname, notesNum: 0, notesList: [Note]() )
         folderList.append(nFolder)
+        self.saveCoreData()
     }
     
     func isNameValid(fname: String) -> Bool {
@@ -136,6 +141,67 @@ class MasterViewController: UITableViewController {
         let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func getNotesList(folder: String) -> [Note] {
+        return [Note]()
+    }
+    
+    func loadCoreData() {
+        print("DEBUG: Loading Initial Data")
+        folderList = [Folder]()
+
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FolderEntity")
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            if results is [NSManagedObject] {
+                for result in results as! [NSManagedObject] {
+                    let fname = result.value(forKey: "fname") as! String
+                    let numNotes = result.value(forKey: "notesnum") as! Int
+               
+                    let notes : [Note] = self.getNotesList(folder: fname)
+                    folderList.append(Folder(fname: fname, notesNum: numNotes, notesList: notes))
+                }
+            }
+        } catch { print(error) }
+    }
+    
+    func saveCoreData() {
+        print("DEBUG: Saving Modifications")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        clearCoreData()
+        for folder in folderList {
+            let folderEntity = NSEntityDescription.insertNewObject(forEntityName: "FolderEntity", into: managedContext)
+                
+            folderEntity.setValue(folder.getFolderName(), forKey: "fname")
+            folderEntity.setValue(folder.getNumNotes(), forKey: "notesnum")
+            do {
+                try managedContext.save()
+            } catch { print(error) }
+        }
+    }
+    
+    func clearCoreData() {
+        print("DEBUG: Clearing data")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        // Create a fetch request
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FolderEntity")
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            for managedObjects in results {
+                if let managedObjectData = managedObjects as? NSManagedObject {
+                    managedContext.delete(managedObjectData)
+                }
+            }
+        } catch{ print(error)  }
+        print("DEBUG: Done Clearing Core Data")
     }
     
 }
