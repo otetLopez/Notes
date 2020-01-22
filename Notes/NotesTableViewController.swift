@@ -1,15 +1,17 @@
 //
-//  MasterViewController.swift
-//  Notes
+//  NotesTableViewController.swift
+//  Notes Organizer
 //
-//  Created by otet_tud on 1/16/20.
+//  Created by otet_tud on 1/21/20.
 //  Copyright © 2020 otet_tud. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class MasterViewController: UITableViewController {
+class NotesTableViewController: UITableViewController {
 
+    weak var delegate: MasterViewController?
     var detailViewController: DetailViewController? = nil
     var folderList = [Folder]()
 
@@ -44,7 +46,7 @@ class MasterViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let object = folderList[indexPath.row] 
+                let object = folderList[indexPath.row]
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 controller.detailItem = object
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
@@ -52,11 +54,6 @@ class MasterViewController: UITableViewController {
                 detailViewController = controller
             }
         }
-        
-        if let noteListSegue = segue.destination as? NotesTableViewController {
-            noteListSegue.delegate = self
-        }
-        
     }
 
     // MARK: - Table View
@@ -73,7 +70,6 @@ class MasterViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let object = folderList[indexPath.row]
         cell.textLabel!.text = object.getFolderName()
-        cell.detailTextLabel!.text = String(object.getNumNotes())
         return cell
     }
 
@@ -91,52 +87,6 @@ class MasterViewController: UITableViewController {
         }
     }
 
-    @IBAction func addFolder(_ sender: UIBarButtonItem) {
-        let alertController = UIAlertController(title: "New Folder", message: "Enter a name for this folder.", preferredStyle: .alert)
-        var nFolderName : UITextField?
-        
-        alertController.addTextField { (nFolderName) in
-            nFolderName.placeholder = "Name"
-        }
-            
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        cancelAction.setValue(UIColor.orange, forKey: "titleTextColor")
-        
-        let addItemAction = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            let textField = alertController.textFields![0]
-            print("DEBUG: Will be adding folder \(textField.text!)")
-            if(self.isNameValid(fname: "\(textField.text!)")) {
-                self.addNewFolder(fname: "\(textField.text!)")
-                self.tableView.reloadData()
-            }
-        }
-        alertController.addAction(cancelAction)
-        alertController.addAction(addItemAction)
-            
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    func addNewFolder(fname: String) {
-        let nFolder : Folder = Folder(fname: fname, notesNum: 0, notesList: [Note]() )
-        folderList.append(nFolder)
-    }
-    
-    func isNameValid(fname: String) -> Bool {
-        for index in folderList {
-            if index.getFolderName() == fname {
-                alert(msg: "Folder name already exists")
-                return false
-            }
-        }
-        return true
-    }
-    
-    func alert(msg: String) {
-        let alertController = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
+
 }
 
