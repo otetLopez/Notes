@@ -149,6 +149,12 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
     
     func addNewFolder(fname: String) {
+        let n1 = Note(title: "note1", info: "note1", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
+         let n2 = Note(title: "note2", info: "note2", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
+         let n3 = Note(title: "note3", info: "note3", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
+         var notesTest = [n1,n2,n3]
+         
+        
         let nFolder : Folder = Folder(fname: fname, notesNum: 0, notesList: [Note]() )
         folderList.append(nFolder)
         self.updateData()
@@ -190,9 +196,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 for result in results as! [NSManagedObject] {
                     let fname = result.value(forKey: "fname") as! String
                     let numNotes = result.value(forKey: "notesnum") as! Int
-                    //let array = result.value(forKey: "notesList") as! [NSObject]
-                    //let notes = array as! [Note]
-                    let notes : [Note] = self.getNotesList(folder: fname)
+                    let notes = result.value(forKey: "noteslist") as! [Note]
+                    //let notes : [Note] = self.getNotesList(folder: fname)
                    
                     
                     folderList.append(Folder(fname: fname, notesNum: numNotes, notesList: notes))
@@ -213,17 +218,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             folderEntity.setValue(folder.getFolderName(), forKey: "fname")
             folderEntity.setValue(folder.getNumNotes(), forKey: "notesnum")
             folderEntity.setValue(folder.getNotesList(), forKey: "noteslist")
-            // For testing purpose
-            let n1 = Note(title: "note1", info: "note1", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
-            let n2 = Note(title: "note2", info: "note2", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
-            let n3 = Note(title: "note3", info: "note3", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
-            
-            var noteTest = [Note]()
-            noteTest.append(n1)
-            noteTest.append(n2)
-            noteTest.append(n3)
-            
-            //folderEntity.setValue(noteTest, forKey: "noteslist")
             do {
                 try managedContext.save()
             } catch { print(error) }

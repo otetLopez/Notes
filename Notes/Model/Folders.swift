@@ -8,10 +8,10 @@
 
 import Foundation
 
-class Folder {
+class Folder : NSObject {
     private var fname : String
     private var notesNum : Int
-    private var notesList : [Note]
+    var notesList : [Note]
     
     internal init(fname: String, notesNum: Int, notesList: [Note]) {
         self.fname = fname
@@ -28,7 +28,7 @@ class Folder {
     }
     
     func getNotesList() -> [Note] {
-        return self.notesList
+        return [Note]()//self.notesList
     }
     
     func setFolderName(fname: String) {
@@ -41,6 +41,10 @@ class Folder {
 
     func setNotesList(notesList : [Note]) {
         self.notesList = notesList
+    }
+    
+    func addNoteList(note: Note) {
+        self.notesList.append(note)
     }
     
 }
