@@ -152,10 +152,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
     
     func addNewFolder(fname: String) {
-        let n1 = Note(title: "note1", info: "note1", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
-         let n2 = Note(title: "note2", info: "note2", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
-         let n3 = Note(title: "note3", info: "note3", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
-         var notesTest = [n1,n2,n3]
+//        let n1 = Note(title: "note1", info: "note1", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
+//         let n2 = Note(title: "note2", info: "note2", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
+//         let n3 = Note(title: "note3", info: "note3", date: "", latitude: 1.0, longitude: 2.0, address: "address", image: "image", folder: "1")
+//         var notesTest = [n1,n2,n3]
          
         
         let nFolder : Folder = Folder(fname: fname, notesNum: 0, notesList: [Note]() )

@@ -64,7 +64,6 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
         
         configureView()
-    
     }
 
     var detailItem: Note? {

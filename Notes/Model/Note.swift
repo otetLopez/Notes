@@ -29,9 +29,10 @@ class Note : NSObject {
     private var longitude : Double
     private var address : String
     private var image : String
+    private var audio : String
     private var folder : String
     
-    internal init(title: String, info: String, date: String, latitude: Double, longitude: Double, address: String, image: String, folder: String) {
+    internal init(title: String, info: String, date: String, latitude: Double, longitude: Double, address: String, image: String, audio : String, folder: String) {
         self.title = title
         self.info = info
         self.date = date
@@ -39,6 +40,7 @@ class Note : NSObject {
         self.longitude = longitude
         self.address = address
         self.image = image
+        self.audio = audio
         self.folder = folder
     }
     
@@ -50,6 +52,7 @@ class Note : NSObject {
         self.longitude = 0.0
         self.address = ""
         self.image = ""
+        self.audio = ""
         self.folder = ""
     }
     
@@ -69,6 +72,8 @@ class Note : NSObject {
     
     func getImage() -> String { return self.image }
     
+    func getAudio() -> String { return self.audio }
+    
     func geFolder() -> String { return self.folder }
     
     /* Note Class Setters */
@@ -86,6 +91,8 @@ class Note : NSObject {
     func setAddress(address: String) { self.address = address }
     
     func setImage(image: String) { self.image = image }
+    
+    func setAudio(audio: String) {self.audio = audio }
     
     func setFolder(folder: String) { self.folder = folder }
     
