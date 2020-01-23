@@ -9,13 +9,18 @@
 import Foundation
 import UIKit
 
-class NotesTableViewController: UITableViewController {
-
+class NotesTableViewController: UITableViewController, UISearchResultsUpdating {
+    
     @IBOutlet weak var navigationBar: UINavigationItem!
     weak var delegate: MasterViewController?
     var detailViewController: DetailViewController? = nil
     var noteList = [Note]()
 
+    // This is for the search bar
+    //For the searchbar
+    var resultSearchController : UISearchController!
+    var filteredTableData = [Note]()
+    
     var detailItem: Folder? {
         didSet {
             // Update the view.
@@ -39,6 +44,20 @@ class NotesTableViewController: UITableViewController {
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
+        
+        //Set searchbar
+        resultSearchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.definesPresentationContext = true
+            controller.searchBar.placeholder = "Search"
+            controller.obscuresBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
+            controller.searchBar.autocapitalizationType = .none
+            return controller
+        })()
+
+                 navigationItem.searchController = resultSearchController
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -85,12 +104,12 @@ class NotesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return noteList.count
+        return (resultSearchController.isActive) ? filteredTableData.count : noteList.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "notes", for: indexPath)
-        let object = noteList[indexPath.row]
+        let object = resultSearchController.isActive ? filteredTableData[indexPath.row] : noteList[indexPath.row]
         cell.textLabel!.text = object.getTitle()
         return cell
     }
@@ -107,6 +126,16 @@ class NotesTableViewController: UITableViewController {
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filteredTableData.removeAll(keepingCapacity: false)
+        for idx in noteList  {
+            if idx.getTitle().localizedCaseInsensitiveContains(searchController.searchBar.text!) || idx.getInfo().localizedCaseInsensitiveContains(searchController.searchBar.text!) || idx.getAddress().localizedCaseInsensitiveContains(searchController.searchBar.text!) {
+                filteredTableData.append(idx)
+            }
+        }
+        self.tableView.reloadData()
     }
     
     func addNewNote(note: Note) {
