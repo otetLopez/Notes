@@ -20,6 +20,7 @@
 		F5B257C223D7CE7400757611 /* Notes_Organizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F5B257C023D7CE7400757611 /* Notes_Organizer.xcdatamodeld */; };
 		F5B257C423D7D5BD00757611 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F5B257C323D7D5BD00757611 /* folder-icon.png */; };
 		F5B257C623D96CB000757611 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B257C523D96CB000757611 /* MapViewController.swift */; };
+		F5B257CA23DA3E9E00757611 /* folder-icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = F5B257C923DA3E9E00757611 /* folder-icon2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		F5B257C123D7CE7400757611 /* Notes_Organizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Notes_Organizer.xcdatamodel; sourceTree = "<group>"; };
 		F5B257C323D7D5BD00757611 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		F5B257C523D96CB000757611 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		F5B257C923DA3E9E00757611 /* folder-icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon2.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				F505E1B623D797F80025A656 /* Note.swift */,
 				F505E1B823D798040025A656 /* Folders.swift */,
 				F5B257C023D7CE7400757611 /* Notes_Organizer.xcdatamodeld */,
+				F5B257C923DA3E9E00757611 /* folder-icon2.png */,
 				F5B257C323D7D5BD00757611 /* folder-icon.png */,
 			);
 			path = Model;
@@ -157,6 +160,7 @@
 				F5B257C423D7D5BD00757611 /* folder-icon.png in Resources */,
 				F597874F23D0F4A2003A4D7D /* LaunchScreen.storyboard in Resources */,
 				F597874C23D0F4A2003A4D7D /* Assets.xcassets in Resources */,
+				F5B257CA23DA3E9E00757611 /* folder-icon2.png in Resources */,
 				F597874A23D0F49C003A4D7D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

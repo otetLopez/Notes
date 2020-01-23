@@ -83,7 +83,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let object = folderList[indexPath.row]
-        cell.imageView?.image = UIImage(named: "folder-icon")
+        cell.imageView?.image = UIImage(named: "folder-icon2")
         cell.textLabel!.text = object.getFolderName()
         cell.detailTextLabel!.text = String(object.getNumNotes())
         return cell
