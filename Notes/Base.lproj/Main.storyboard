@@ -176,8 +176,11 @@
                             <outlet property="delegate" destination="cqb-aa-44g" id="VfH-y4-twF"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="RV7-0y-RR1"/>
+                    <navigationItem key="navigationItem" title="Notes" id="RV7-0y-RR1"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="navigationBar" destination="RV7-0y-RR1" id="E1d-iN-sht"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tb0-4R-qTp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

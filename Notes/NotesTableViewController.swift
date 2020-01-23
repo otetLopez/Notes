@@ -11,10 +11,28 @@ import UIKit
 
 class NotesTableViewController: UITableViewController {
 
+    @IBOutlet weak var navigationBar: UINavigationItem!
     weak var delegate: MasterViewController?
     var detailViewController: DetailViewController? = nil
-    var folderList = [Folder]()
+    var noteList = [Note]()
 
+    var detailItem: Folder? {
+        didSet {
+            // Update the view.
+            configureView()
+        }
+    }
+    
+    func configureView() {
+        // Update the user interface for the detail item.
+       if let detail = detailItem {
+        navigationBar.title = detail.getFolderName()
+        noteList = detail.getNotesList()
+//            if let label = detailDescriptionLabel {
+//                label.text = detail.getFolderName()
+//            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +64,7 @@ class NotesTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let object = folderList[indexPath.row]
+                let object = noteList[indexPath.row]
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 controller.detailItem = object
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
@@ -63,13 +81,13 @@ class NotesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return folderList.count
+        return noteList.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let object = folderList[indexPath.row]
-        cell.textLabel!.text = object.getFolderName()
+        let object = noteList[indexPath.row]
+        cell.textLabel!.text = object.getTitle()
         return cell
     }
 
@@ -80,7 +98,7 @@ class NotesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            folderList.remove(at: indexPath.row)
+            noteList.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
