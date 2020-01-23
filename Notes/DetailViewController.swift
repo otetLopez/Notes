@@ -26,6 +26,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
     var coordinates = CLLocation()
     var address : String?
     var mod : Bool?
+    var mapViewMode : Bool?
     
     func configureView() {
         // Update the user interface for the detail item.
@@ -55,6 +56,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         datefld.isUserInteractionEnabled = false
+        mapViewMode = false
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -74,25 +76,33 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func mapviewfldpressed(_ sender: Any) {
+        print("DEBUG: this field is pressed")
         mapfld.endEditing(true)
         if mapfld.text != "🗺 : " { //then the address is filled
+            mapViewMode = true
             self.performSegue(withIdentifier: "viewmap", sender: self)
         }
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        mapViewMode = false
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
-        print("DEBUG: Modification status \(mod)")
-        if !(notetitlefld.text?.isEmpty ?? true) && mod == false {
-            print("DEBUG: Setting a new note")
-            note?.setTitle(title: notetitlefld.text!)
-            note?.setInfo(info: notecontent.text)
-            note?.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
-            
-            print(note)
-            
-            delegate?.noteList.append(note!)
-            delegate?.tableView.reloadData()
+        if mapViewMode == false {
+            print("DEBUG: Modification status \(mod)")
+            if !(notetitlefld.text?.isEmpty ?? true) && mod == false {
+                print("DEBUG: Setting a new note")
+                note?.setTitle(title: notetitlefld.text!)
+                note?.setInfo(info: notecontent.text)
+                note?.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
+                
+                print(note)
+                
+                delegate?.noteList.append(note!)
+                delegate?.tableView.reloadData()
+            }
         }
     }
     
