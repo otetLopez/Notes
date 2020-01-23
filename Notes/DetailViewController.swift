@@ -80,7 +80,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
         mapfld.endEditing(true)
         if mapfld.text != "🗺 : " { //then the address is filled
             mapViewMode = true
-            self.performSegue(withIdentifier: "viewmap", sender: self)
+            //self.performSegue(withIdentifier: "viewmap", sender: self)
         }
         
     }

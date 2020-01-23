@@ -19,6 +19,7 @@ class MapViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         // Define Latitude and Longitude of a specific location ex. Toronto
+        print("DEBUG: Map Location View Loading")
         let coordinates = delegate?.coordinates
         let latidude : CLLocationDegrees = (coordinates?.coordinate.latitude)!
         let longitude: CLLocationDegrees = (coordinates?.coordinate.longitude)!
