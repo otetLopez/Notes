@@ -42,6 +42,17 @@ class Note : NSObject {
         self.folder = folder
     }
     
+    override init() {
+        self.title = ""
+        self.info = ""
+        self.date = ""
+        self.latitude = 0.0
+        self.longitude = 0.0
+        self.address = ""
+        self.image = ""
+        self.folder = ""
+    }
+    
     /* Note Clas Getters */
     
     func getTitle() -> String { return self.title }
@@ -71,6 +82,8 @@ class Note : NSObject {
     func setLatitude(latitude: Double) { self.latitude = latitude }
     
     func setLongitude(longitude: Double) { self.longitude = longitude }
+    
+    func setAddress(address: String) { self.address = address }
     
     func setImage(image: String) { self.image = image }
     

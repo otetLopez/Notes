@@ -66,6 +66,10 @@ class NotesTableViewController: UITableViewController {
                 detailViewController = controller
             }
         }
+        
+        if let noteDelegate = (segue.destination as! UINavigationController).topViewController as! DetailViewController? {
+                   noteDelegate.delegate = self
+               }
     }
 
     // MARK: - Table View
@@ -79,7 +83,7 @@ class NotesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "notes", for: indexPath)
         let object = noteList[indexPath.row]
         cell.textLabel!.text = object.getTitle()
         return cell
