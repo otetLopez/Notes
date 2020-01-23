@@ -74,7 +74,7 @@ class Note : NSObject {
     
     func getAudio() -> String { return self.audio }
     
-    func geFolder() -> String { return self.folder }
+    func getFolder() -> String { return self.folder }
     
     /* Note Class Setters */
     

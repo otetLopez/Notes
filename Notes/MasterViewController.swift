@@ -32,12 +32,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
-        
-        for folder in folderList {
-            print("DEBUG: \(folder.getFolderName()) has \(folder.getNotesList().count)")
-        }
-        
         tableView.reloadData()
+        // Save whatever we changes we did with the notes view
+        saveCoreData()
     }
 
     @objc
@@ -185,11 +182,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func getNotesList(folder: String) -> [Note] {
-        return [Note]()
-    }
-    
-    
     func loadCoreData() {
         print("DEBUG: Loading Initial Data")
         folderList = [Folder]()
@@ -204,8 +196,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 for result in results as! [NSManagedObject] {
                     let fname = result.value(forKey: "fname") as! String
                     let numNotes = result.value(forKey: "notesnum") as! Int
-                    let notes = result.value(forKey: "noteslist") as! [Note]
-                    //let notes : [Note] = self.getNotesList(folder: fname)
+                    //let notes = result.value(forKey: "noteslist") as! [Note]
+                    let notes = [Note]()
                    
                     
                     folderList.append(Folder(fname: fname, notesNum: numNotes, notesList: notes))
@@ -225,7 +217,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 
             folderEntity.setValue(folder.getFolderName(), forKey: "fname")
             folderEntity.setValue(folder.getNumNotes(), forKey: "notesnum")
-            folderEntity.setValue(folder.getNotesList(), forKey: "noteslist")
+            // This will crash
+            //folderEntity.setValue(folder.getNotesList(), forKey: "noteslist")
             do {
                 try managedContext.save()
             } catch { print(error) }
@@ -275,6 +268,17 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         } catch { print(error) }
     }
     
+    func getFolderIndex (fname: String) -> Int {
+        var idx : Int = 0
+        for folder in folderList {
+            if folder.getFolderName() == fname {
+                return idx
+            }
+            idx += 1
+        }
+        return -1
+    }
+    
     func addNewNoteToFolder(note: Note, fname: String) {
         print("DEBUG: New note \(note.getTitle()) added to folder \(fname)")
         var idx : Int = 0
@@ -286,12 +290,15 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             }
             idx += 1
         }
-        
-        for folder in folderList {
-            print("DEBUG: After addition \(folder.getFolderName()) has \(folder.getNotesList().count)")
+        tableView.reloadData()
+    }
+    
+    func deleteNoteFromFolder(note: Note, fname: String) {
+        let idx : Int = getFolderIndex(fname: fname)
+        if idx >= 0 {
+            folderList.remove(at: idx)
         }
         
-        tableView.reloadData()
     }
     
 }
