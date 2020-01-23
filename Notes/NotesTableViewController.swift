@@ -28,9 +28,6 @@ class NotesTableViewController: UITableViewController {
        if let detail = detailItem {
         navigationBar.title = detail.getFolderName()
         noteList = detail.getNotesList()
-//            if let label = detailDescriptionLabel {
-//                label.text = detail.getFolderName()
-//            }
         }
     }
 
@@ -38,9 +35,6 @@ class NotesTableViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         navigationItem.rightBarButtonItem = editButtonItem
-
-//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-//        navigationItem.rightBarButtonItem = addButton
         if let split = splitViewController {
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController

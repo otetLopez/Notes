@@ -19,6 +19,7 @@
 		F5B257BF23D7C45C00757611 /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B257BE23D7C45C00757611 /* NotesTableViewController.swift */; };
 		F5B257C223D7CE7400757611 /* Notes_Organizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F5B257C023D7CE7400757611 /* Notes_Organizer.xcdatamodeld */; };
 		F5B257C423D7D5BD00757611 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F5B257C323D7D5BD00757611 /* folder-icon.png */; };
+		F5B257C623D96CB000757611 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B257C523D96CB000757611 /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		F5B257BE23D7C45C00757611 /* NotesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
 		F5B257C123D7CE7400757611 /* Notes_Organizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Notes_Organizer.xcdatamodel; sourceTree = "<group>"; };
 		F5B257C323D7D5BD00757611 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
+		F5B257C523D96CB000757611 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				F5B257BE23D7C45C00757611 /* NotesTableViewController.swift */,
 				F597874623D0F49C003A4D7D /* DetailViewController.swift */,
 				F597874823D0F49C003A4D7D /* Main.storyboard */,
+				F5B257C523D96CB000757611 /* MapViewController.swift */,
 				F597874B23D0F4A2003A4D7D /* Assets.xcassets */,
 				F597874D23D0F4A2003A4D7D /* LaunchScreen.storyboard */,
 				F597875023D0F4A2003A4D7D /* Info.plist */,
@@ -169,6 +172,7 @@
 				F505E1B923D798040025A656 /* Folders.swift in Sources */,
 				F597874323D0F49C003A4D7D /* SceneDelegate.swift in Sources */,
 				F597874523D0F49C003A4D7D /* MasterViewController.swift in Sources */,
+				F5B257C623D96CB000757611 /* MapViewController.swift in Sources */,
 				F597874723D0F49C003A4D7D /* DetailViewController.swift in Sources */,
 				F5B257C223D7CE7400757611 /* Notes_Organizer.xcdatamodeld in Sources */,
 				F505E1B723D797F80025A656 /* Note.swift in Sources */,
