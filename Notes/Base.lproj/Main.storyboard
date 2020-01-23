@@ -142,6 +142,9 @@
                         <viewLayoutGuide key="safeArea" id="yg9-Dq-tFX"/>
                     </view>
                     <navigationItem key="navigationItem" title="Location" id="EZq-Yt-7zF"/>
+                    <connections>
+                        <outlet property="mapView" destination="4fj-fX-LLx" id="D3f-xU-k37"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1481" y="127"/>

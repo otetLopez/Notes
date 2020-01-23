@@ -88,4 +88,15 @@ class Note : NSObject {
     func setImage(image: String) { self.image = image }
     
     func setFolder(folder: String) { self.folder = folder }
+    
+    
+    override var description: String {
+        var formattedStr : String = "-----------------------\nTitle: \(self.title)\n"
+        formattedStr.append("Date: \(self.date)\nFolder: \(self.folder)\n")
+        formattedStr.append("Latitude: \(self.latitude)\nLongitude: \(self.longitude)")
+        formattedStr.append("Address: \(self.address)")
+        formattedStr.append("-----------------------")
+        return formattedStr
+    }
+    
 }

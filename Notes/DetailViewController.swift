@@ -23,6 +23,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
     
     weak var delegate: NotesTableViewController?
     var locationManager = CLLocationManager()
+    var coordinates = CLLocation()
     var address : String?
     var mod : Bool?
     
@@ -30,9 +31,14 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
         // Update the user interface for the detail item.
         if let detail = detailItem {
             mod = true
-            navigationbar.title = detail.getTitle()
-            datefld.text = detail.getDate()
-            mapfld.text = detail.getAddress()
+            print("DEBUG: Retrieved the following data: \(note!.getDate()) \(note!.getAddress()) ")
+            navigationbar.title = note!.getTitle()
+            datefld?.text = "🗓 : \(note!.getDate())"
+            mapfld?.text = "🗺 : \(note!.getAddress())"
+            notetitlefld?.text = note!.getTitle()
+            
+            let location = CLLocation(latitude: detail.getLatitude(), longitude: detail.getLongitude())
+            coordinates = location
             
             if let label = detailDescriptionLabel {
                 label.text = detail.getTitle()
@@ -69,7 +75,10 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func mapviewfldpressed(_ sender: Any) {
         mapfld.endEditing(true)
-        self.performSegue(withIdentifier: "viewmap", sender: self)
+        if mapfld.text != "🗺 : " { //then the address is filled
+            self.performSegue(withIdentifier: "viewmap", sender: self)
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,19 +89,11 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
             note?.setInfo(info: notecontent.text)
             note?.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
             
+            print(note)
+            
             delegate?.noteList.append(note!)
             delegate?.tableView.reloadData()
         }
-        
-//        if !(textViewOutlet.text!.isEmpty) {
-//            if mod == true {
-//                self.delegateNotes?.editNote(note: self.textViewOutlet.text!, nidx: self.index)
-//                self.delegateNotes?.noteIdx = -1
-//                mod = false
-//            } else {
-//                self.delegateNotes?.addNote(note: textViewOutlet.text!)
-//            }
-//        }
     }
     
     func configureDate() {
@@ -144,14 +145,20 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
                 
                 self.address = "\(thoroufare) \(subLocality) \(subAdministrativeArea) \(country)"
                 print("DEBUG: \(self.address)")
-                //if self.mapfld.text == "🗺 : " {
                 if self.note?.getAddress().isEmpty ?? true {
+                    self.coordinates = location
                     self.mapfld.text = "🗺 : \(thoroufare) \(subLocality) \(subAdministrativeArea) \(country)"
                     self.note?.setAddress(address: "\(thoroufare) \(subLocality) \(subAdministrativeArea) \(country)")
+                    self.note?.setLatitude(latitude: latitude)
+                    self.note?.setLongitude(longitude: longitude)
                 }
             }
-                }}
+        }}
     }
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let mapDelegate = segue.destination as? MapViewController {
+                   mapDelegate.delegate = self
+               }
+    }
 }
 

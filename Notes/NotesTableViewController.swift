@@ -59,6 +59,10 @@ class NotesTableViewController: UITableViewController {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let object = noteList[indexPath.row]
+                
+                print("DEBUG: checking what detail we are passing to detail")
+                print(noteList[indexPath.row])
+                
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 controller.detailItem = object
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
