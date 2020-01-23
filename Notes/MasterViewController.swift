@@ -14,7 +14,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     var detailViewController: DetailViewController? = nil
     var folderList = [Folder]()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -33,6 +32,12 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+        
+        for folder in folderList {
+            print("DEBUG: \(folder.getFolderName()) has \(folder.getNotesList().count)")
+        }
+        
+        tableView.reloadData()
     }
 
     @objc
@@ -268,6 +273,25 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 }
             }
         } catch { print(error) }
+    }
+    
+    func addNewNoteToFolder(note: Note, fname: String) {
+        print("DEBUG: New note \(note.getTitle()) added to folder \(fname)")
+        var idx : Int = 0
+        for folder in folderList {
+            if folder.getFolderName() == fname {
+                print("DEBUG: \(note.getTitle()) added into \(fname)")
+                folderList[idx].addNoteList(note: note)
+                print("DEBUG: right after addition \(folder.getFolderName()) has \(folder.getNotesList().count)")
+            }
+            idx += 1
+        }
+        
+        for folder in folderList {
+            print("DEBUG: After addition \(folder.getFolderName()) has \(folder.getNotesList().count)")
+        }
+        
+        tableView.reloadData()
     }
     
 }

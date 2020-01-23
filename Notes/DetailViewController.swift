@@ -99,7 +99,8 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
                 
                 print(note)
                 
-                delegate?.noteList.append(note!)
+                //delegate?.noteList.append(note!)
+                delegate?.addNewNote(note: note!)
                 delegate?.tableView.reloadData()
             }
         }

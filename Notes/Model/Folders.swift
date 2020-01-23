@@ -28,7 +28,7 @@ class Folder : NSObject {
     }
     
     func getNotesList() -> [Note] {
-        return [Note]()//self.notesList
+        return self.notesList
     }
     
     func setFolderName(fname: String) {
@@ -45,6 +45,8 @@ class Folder : NSObject {
     
     func addNoteList(note: Note) {
         self.notesList.append(note)
+        self.setNumNotes(num: self.getNotesList().count)
+        print("DEBUG: Added new note!")
     }
     
 }

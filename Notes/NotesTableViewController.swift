@@ -44,6 +44,8 @@ class NotesTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+        
+        tableView.reloadData()
     }
 
     @objc
@@ -105,6 +107,16 @@ class NotesTableViewController: UITableViewController {
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
+    }
+    
+    func addNewNote(note: Note) {
+        // Append the note in this notelist
+        noteList.append(note)
+        // Add the note in the folder's notelist
+        delegate?.addNewNoteToFolder(note: note, fname: (detailItem?.getFolderName())!)
+        
+        // Save the note changes
+        
     }
 
 
