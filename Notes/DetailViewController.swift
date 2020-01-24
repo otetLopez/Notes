@@ -40,6 +40,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
             datefld?.text = "🗓 : \(note!.getDate())"
             mapfld?.text = "🗺 : \(note!.getAddress())"
             notetitlefld?.text = note!.getTitle()
+            notecontent?.text = note!.getInfo()
             
             let location = CLLocation(latitude: detail.getLatitude(), longitude: detail.getLongitude())
             coordinates = location
@@ -99,7 +100,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
         
         let tempNote = note!
         tempNote.setTitle(title: notetitlefld.text!)
-        tempNote.setInfo(info: notecontent.text)
+        tempNote.setInfo(info: notecontent.text!)
         tempNote.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
         
         return tempNote
@@ -109,18 +110,18 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
         if mapViewMode == false {
             print("DEBUG: Modification status \(mod)")
             if !(notetitlefld.text?.isEmpty ?? true) {
+
+                note?.setTitle(title: notetitlefld.text!)
+                note?.setInfo(info: notecontent.text!)
+                note?.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
+                
                 if mod == true {
                     // We are editing existing note
                     print("DEBUG \(temporaryNote)")
-                    delegate?.updateNote(oldNote : temporaryNote!, newNote: getNewNote())
+                    delegate?.updateNote(oldNote : temporaryNote!, newNote: note!)
                      
                 }
                 
-//                note?.setTitle(title: notetitlefld.text!)
-//                note?.setInfo(info: notecontent.text)
-//                note?.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
-
-
                 if mod == false {
                     print("DEBUG: Setting a new note")
                     delegate?.addNewNote(note: note!) }

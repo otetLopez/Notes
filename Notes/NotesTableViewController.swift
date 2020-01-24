@@ -181,7 +181,7 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
     }
     
     func updateNote(oldNote: Note, newNote: Note) {
-        print("DEBUG: 2 Updating Note Data from \(oldNote) to \(newNote)")
+        print("DEBUG: 2 Updating Note \(newNote.getInfo())")
         //delegate?.updateNotesData(oldNote: oldNote, newNote: newNote)
         delegate?.updateNotesData(oldNote: oldNote, newNote: newNote)
 //        let idx : Int = getNoteIndex(note: oldNote)
