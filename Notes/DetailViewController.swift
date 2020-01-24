@@ -20,6 +20,8 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var notecontent: UITextView!
     
     var note : Note?
+    var oldNote : Note?
+    var temporaryNote : Note?
     
     weak var delegate: NotesTableViewController?
     var locationManager = CLLocationManager()
@@ -31,6 +33,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
     func configureView() {
         // Update the user interface for the detail item.
         if let detail = detailItem {
+            print("DEBUG: This is oldnote \(oldNote)")
             mod = true
             print("DEBUG: Retrieved the following data: \(note!.getDate()) \(note!.getAddress()) ")
             navigationbar.title = note!.getTitle()
@@ -63,6 +66,10 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
+        oldNote = detailItem
+        var realOldNote = Note(title: oldNote!.getTitle(), date: oldNote!.getDate(), info: oldNote!.getAddress())
+        temporaryNote = realOldNote
+        
         configureView()
     }
 
@@ -88,19 +95,35 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate {
         mapViewMode = false
     }
     
+    func getNewNote() -> Note {
+        
+        let tempNote = note!
+        tempNote.setTitle(title: notetitlefld.text!)
+        tempNote.setInfo(info: notecontent.text)
+        tempNote.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
+        
+        return tempNote
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         if mapViewMode == false {
             print("DEBUG: Modification status \(mod)")
-            if !(notetitlefld.text?.isEmpty ?? true) && mod == false {
-                print("DEBUG: Setting a new note")
-                note?.setTitle(title: notetitlefld.text!)
-                note?.setInfo(info: notecontent.text)
-                note?.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
+            if !(notetitlefld.text?.isEmpty ?? true) {
+                if mod == true {
+                    // We are editing existing note
+                    print("DEBUG \(temporaryNote)")
+                    delegate?.updateNote(oldNote : temporaryNote!, newNote: getNewNote())
+                     
+                }
                 
-                print(note)
-                
-                //delegate?.noteList.append(note!)
-                delegate?.addNewNote(note: note!)
+//                note?.setTitle(title: notetitlefld.text!)
+//                note?.setInfo(info: notecontent.text)
+//                note?.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
+
+
+                if mod == false {
+                    print("DEBUG: Setting a new note")
+                    delegate?.addNewNote(note: note!) }
                 delegate?.tableView.reloadData()
             }
         }

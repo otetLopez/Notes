@@ -16,6 +16,7 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
     weak var delegate: MasterViewController?
     var detailViewController: DetailViewController? = nil
     var noteList = [Note]()
+    var currNote : Note?
 
     // This is for the search bar
     //For the searchbar
@@ -35,10 +36,7 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
             navigationBar.title = detail.getFolderName()
             noteList = detail.getNotesList()
         }
-        if noteList.count == 0 {
-            //Probably notes aren't loaded yet
-            loadCoreData()
-        }
+        loadCoreData()
     }
 
     override func viewDidLoad() {
@@ -91,6 +89,7 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
                 
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 controller.detailItem = object
+                currNote = object
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 detailViewController = controller
@@ -150,14 +149,38 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
         self.tableView.reloadData()
     }
     
+    func getNoteIndex(note : Note) -> Int {
+        var idx : Int = 0
+        for noteIdx in noteList {
+            if note.getTitle() == noteIdx.getTitle() && note.getDate() == noteIdx.getDate() && note.getAddress() == noteIdx.getAddress() {
+                return idx
+            }
+            idx += 1
+        }
+        return -1
+    }
+    
     func addNewNote(note: Note) {
         // Append the note in this notelist
         noteList.append(note)
         // Add the note in the folder's notelist
         delegate?.addNewNoteToFolder(note: note, fname: (detailItem?.getFolderName())!)
         // Save the note changes to core data
-        saveCoreData()
+        //saveCoreData()
         
+    }
+    
+    func updateNote(oldNote: Note, newNote: Note) {
+        print("DEBUG: 2 Updating Note Data from \(oldNote) to \(newNote)")
+        //delegate?.updateNotesData(oldNote: oldNote, newNote: newNote)
+        delegate?.updateNotesData(oldNote: oldNote, newNote: newNote)
+//        let idx : Int = getNoteIndex(note: oldNote)
+//        noteList.remove(at: idx)
+//        noteList.insert(newNote, at: idx)
+//        
+        
+        //Update Core Data
+       // saveCoreData()
     }
     
     func loadCoreData() {
@@ -184,9 +207,11 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
                     let folder = result.value(forKey: "folder") as! String
                     
                     noteList.append(Note(title: title, info: info, date: date, latitude: latitude, longitude: longitude, address: address, image: image, audio: audio, folder: folder))
+                    
                 }
             }
         } catch { print(error) }
+        //self.delegate?.detailItem.setNumNotes(noteList.count)
     }
     
     func saveCoreData() {

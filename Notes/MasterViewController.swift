@@ -13,6 +13,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     var detailViewController: DetailViewController? = nil
     var folderList = [Folder]()
+    var allNotesList = [Note]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +35,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         super.viewWillAppear(animated)
         tableView.reloadData()
         // Save whatever we changes we did with the notes view
-        saveCoreData()
+        saveCoreData(entityName: "NoteEntity")
     }
 
     @objc
@@ -82,7 +83,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         let object = folderList[indexPath.row]
         cell.imageView?.image = UIImage(named: "folder-icon2")
         cell.textLabel!.text = object.getFolderName()
-        cell.detailTextLabel!.text = String(object.getNumNotes())
+        cell.detailTextLabel!.text = ""//String(object.getNotesList().count)
         return cell
     }
 
@@ -144,10 +145,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     
     func updateData() {
         if (folderList.count > 0) {
-            self.saveCoreData()
+            self.saveCoreData(entityName: "FolderEntity")
         } else {
             print("Clearing the Data and loading something empty")
-            self.clearCoreData()
+            self.clearCoreData(entityName: "FolderEntity")
             self.loadCoreData()
         }
         self.tableView.reloadData()
@@ -183,13 +184,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
     
     func loadCoreData() {
-        print("DEBUG: Loading Initial Data")
+        print("DEBUG: Loading Initial Data Folders")
         folderList = [Folder]()
 
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FolderEntity")
+        //Load the folders
+        var fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FolderEntity")
         do {
             let results = try managedContext.fetch(fetchRequest)
             if results is [NSManagedObject] {
@@ -204,33 +206,78 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 }
             }
         } catch { print(error) }
+        
+        //Load all notes
+        fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "NoteEntity")
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            if results is [NSManagedObject] {
+                for result in results as! [NSManagedObject] {
+                    let title = result.value(forKey: "title") as! String
+                    let info = result.value(forKey: "info") as! String
+                    let date = result.value(forKey: "date") as! String
+                    let latitude = result.value(forKey: "latitude") as! Double
+                    let longitude = result.value(forKey: "longitude") as! Double
+                    let address = result.value(forKey: "address") as! String
+                    let image = result.value(forKey: "image") as! String
+                    let audio = result.value(forKey: "audio") as! String
+                    let folder = result.value(forKey: "folder") as! String
+                    
+                    allNotesList.append(Note(title: title, info: info, date: date, latitude: latitude, longitude: longitude, address: address, image: image, audio: audio, folder: folder))
+                }
+            }
+        } catch { print(error) }
     }
     
-    func saveCoreData() {
-        print("DEBUG: Saving Modifications")
+    func saveCoreData(entityName: String) {
+        print("DEBUG: Saving Modifications for \(entityName)")
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        clearCoreData()
-        for folder in folderList {
-            let folderEntity = NSEntityDescription.insertNewObject(forEntityName: "FolderEntity", into: managedContext)
-                
-            folderEntity.setValue(folder.getFolderName(), forKey: "fname")
-            folderEntity.setValue(folder.getNumNotes(), forKey: "notesnum")
-            // This will crash
-            //folderEntity.setValue(folder.getNotesList(), forKey: "noteslist")
-            do {
-                try managedContext.save()
-            } catch { print(error) }
+        clearCoreData(entityName: entityName)
+        switch entityName {
+        case "FolderEntity":
+            for folder in folderList {
+                let folderEntity = NSEntityDescription.insertNewObject(forEntityName: "FolderEntity", into: managedContext)
+                    
+                folderEntity.setValue(folder.getFolderName(), forKey: "fname")
+                folderEntity.setValue(folder.getNumNotes(), forKey: "notesnum")
+                // This will crash
+                //folderEntity.setValue(folder.getNotesList(), forKey: "noteslist")
+                do {
+                    try managedContext.save()
+                } catch { print(error) }
+            }
+        case "NoteEntity":
+            print("DEBUG: Saving allnotes list to core data with count \(allNotesList.count)")
+            for note in allNotesList {
+                let noteEntity = NSEntityDescription.insertNewObject(forEntityName: "NoteEntity", into: managedContext)
+                    
+                noteEntity.setValue(note.getTitle(), forKey: "title")
+                noteEntity.setValue(note.getInfo(), forKey: "info")
+                noteEntity.setValue(note.getDate(), forKey: "date")
+                noteEntity.setValue(note.getLatitude(), forKey: "latitude")
+                noteEntity.setValue(note.getLongitude(), forKey: "longitude")
+                noteEntity.setValue(note.getAddress(), forKey: "address")
+                noteEntity.setValue(note.getImage(), forKey: "image")
+                noteEntity.setValue(note.getAudio(), forKey: "audio")
+                noteEntity.setValue(note.getFolder(), forKey: "folder")
+                do {
+                    try managedContext.save()
+                } catch { print(error) }
+            }
+        default:
+            // Nothing to do here
+            break
         }
     }
     
-    func clearCoreData() {
-        print("DEBUG: Clearing data")
+    func clearCoreData(entityName : String) {
+        print("DEBUG: Clearing data for \(entityName)")
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
         // Create a fetch request
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FolderEntity")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetchRequest.returnsObjectsAsFaults = false
         do {
             let results = try managedContext.fetch(fetchRequest)
@@ -291,14 +338,56 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             idx += 1
         }
         tableView.reloadData()
+        addNoteToList(note: note)
+    }
+    
+    func addNoteToList(note: Note) {
+        allNotesList.append(note)
+        print("DEBUG: Adding note to all list \(allNotesList.count)")
+        saveCoreData(entityName: "NoteEntity")
+        saveCoreData(entityName: "FolderEntity")
     }
     
     func deleteNoteFromFolder(note: Note, fname: String) {
         let idx : Int = getFolderIndex(fname: fname)
         if idx >= 0 {
-            folderList.remove(at: idx)
+            let notes =  folderList[idx].getNotesList()
+            var nIdx : Int = 0
+            for noteIdx in notes {
+                if noteIdx.getTitle() == note.getTitle() && noteIdx.getInfo() == note.getInfo() && noteIdx.getAddress() == note.getAddress() {
+                    folderList[idx].notesList.remove(at: nIdx)
+                }
+                nIdx += 1
+            }
         }
-        
+        tableView.reloadData()
+        deleteNoteFromList(note: note)
+    }
+    
+    func deleteNoteFromList(note: Note) {
+        var nIdx : Int = 0
+        for noteIdx in allNotesList {
+            if noteIdx.getTitle() == note.getTitle() && noteIdx.getInfo() == note.getInfo() && noteIdx.getAddress() == note.getAddress() {
+                allNotesList.remove(at: nIdx)
+            }
+            nIdx += 1
+        }
+        saveCoreData(entityName: "NoteEntity")
+        saveCoreData(entityName: "FolderEntity")
+    }
+    
+    func updateNotesData(oldNote: Note, newNote: Note) {
+        print("DEBUG: Updating Note Data from \(oldNote) to \(newNote)")
+        var nIdx : Int = 0
+        for noteIdx in allNotesList {
+            if noteIdx.getTitle() == oldNote.getTitle() { //&& noteIdx.getInfo() == oldNote.getInfo() && noteIdx.getAddress() == oldNote.getAddress() {
+                allNotesList.remove(at: nIdx)
+                print("DEBUG: Found note to delete")
+                allNotesList.insert(newNote, at: nIdx)
+            }
+            nIdx += 1
+        }
+        saveCoreData(entityName: "NoteEntity")
     }
     
 }

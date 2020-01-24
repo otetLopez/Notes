@@ -15,7 +15,7 @@ class Folder : NSObject {
     
     internal init(fname: String, notesNum: Int, notesList: [Note]) {
         self.fname = fname
-        self.notesNum = notesNum
+        self.notesNum = notesList.count
         self.notesList = notesList
     }
     
@@ -24,7 +24,8 @@ class Folder : NSObject {
     }
     
     func getNumNotes() -> Int {
-        return self.notesNum
+        self.setNumNotes(num: self.getNotesList().count)
+        return self.notesList.count
     }
     
     func getNotesList() -> [Note] {

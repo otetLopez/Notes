@@ -56,6 +56,18 @@ class Note : NSObject {
         self.folder = ""
     }
     
+    init(title: String, date: String, info: String) {
+        self.title = title
+        self.info = info
+        self.date = date
+        self.latitude = 0.0
+        self.longitude = 0.0
+        self.address = ""
+        self.image = ""
+        self.audio = ""
+        self.folder = ""
+    }
+    
     /* Note Clas Getters */
     
     func getTitle() -> String { return self.title }
