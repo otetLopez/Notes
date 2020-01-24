@@ -32,9 +32,18 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
     var mapViewMode : Bool?
     
     // For the audio
-    var recordButton: UIButton!
+
+   // var recordButton: UIButton!
+    @IBOutlet weak var recordButton: UIButton!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var stopButton: UIButton!
+    @IBOutlet weak var pauseButton: UIButton!
+    
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
+    var player = AVAudioPlayer()
+    var audioFilenameFinal : URL?
+    @IBOutlet weak var recordInfo: UILabel!
     
     func configureView() {
         // Update the user interface for the detail item.
@@ -88,7 +97,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             recordingSession.requestRecordPermission() { [unowned self] allowed in
                 DispatchQueue.main.async {
                     if allowed {
-                        self.loadRecordingUI()
+                        //self.loadRecordingUI()
                     } else {
                         // failed to record!
                     }
@@ -221,15 +230,19 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
     }
 
     func loadRecordingUI() {
-        recordButton = UIButton(frame: CGRect(x: 64, y: 64, width: 128, height: 64))
-        recordButton.setTitle("Tap to Record", for: .normal)
-        recordButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
-        recordButton.addTarget(self, action: #selector(recordTapped), for: .touchUpInside)
-        view.addSubview(recordButton)
+        print("DEBUG: Setting up record button")
+        //recordButton = UIButton(frame: CGRect(x: 142, y: 700, width: 128, height: 64))
+        //recordButton.setTitle("Tap to Record", for: .normal)
+        //recordButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
+        //recordButton.addTarget(self, action: #selector(recordTapped), for: .touchUpInside)
+        //view.addSubview(recordButton)
     }
 
     func startRecording() {
-        let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
+        //let audioFilename = getDocumentsDirectory().appendingPathComponent("\(detailItem!.getFolder())-\(detailItem?.getTitle())-recording.m4a")
+        let filename = ("\(detailItem!.getFolder())-\(detailItem?.getTitle())-recording.m4a")
+        let audioFilename = getDocumentsDirectory().appendingPathComponent(filename)
+    
 
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -243,7 +256,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             audioRecorder.delegate = self
             audioRecorder.record()
 
-            recordButton.setTitle("Tap to Stop", for: .normal)
+            recordButton.setTitle("🔴", for: .normal)
         } catch {
             finishRecording(success: false)
         }
@@ -257,12 +270,13 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
     func finishRecording(success: Bool) {
         audioRecorder.stop()
         audioRecorder = nil
-
+        recordButton.setTitle("🔘", for: .normal)
         if success {
-            recordButton.setTitle("Tap to Re-record", for: .normal)
+            
+            print("DEBUG: Recording successful")
+            
         } else {
-            recordButton.setTitle("Tap to Record", for: .normal)
-            // recording failed :(
+            print("DEBUG: Recording not successful")
         }
     }
 
@@ -278,6 +292,33 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         if !flag {
             finishRecording(success: false)
         }
+    }
+    
+    @IBAction func recorButtonPressed(_ sender: UIButton) {
+        recordTapped()
+    }
+    
+    @IBAction func playButtonPressed(_ sender: UIButton) {
+        //let path = getDocumentsDirectory().appendingPathComponent("\(detailItem!.getFolder())-\(detailItem?.getTitle())-recording.m4a")
+        let filename = ("\(detailItem!.getFolder())-\(detailItem?.getTitle())-recording.m4a")
+        let path = getDocumentsDirectory().appendingPathComponent(filename)
+        //AVAudioPlayer(contentsOfURL: audioRecorder?.url, error: &error)
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: path)
+        }
+        catch { print(error) }
+            
+        
+        player.play()
+    }
+    
+    @IBAction func stopButtonPressed(_ sender: Any) {
+        player.stop()
+    }
+    
+    @IBAction func pauseButtonPressed(_ sender: Any) {
+        player.pause()
     }
 }
 

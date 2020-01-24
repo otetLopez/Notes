@@ -46,7 +46,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Tq4-bD-0du">
-                                <rect key="frame" x="30" y="150" width="354" height="118"/>
+                                <rect key="frame" x="30" y="145" width="354" height="118"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="🗓 : " borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vlL-hn-GMG">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="34"/>
@@ -73,32 +73,79 @@
                                 </subviews>
                             </stackView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mME-R4-KKW">
-                                <rect key="frame" x="30" y="278" width="354" height="525"/>
+                                <rect key="frame" x="30" y="268" width="354" height="350"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="350" id="1OS-wC-RRv"/>
+                                </constraints>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="BO5-f8-IGB">
+                                <rect key="frame" x="139.5" y="773" width="135" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bUc-b1-eot">
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                        <state key="normal" title="🔘"/>
+                                        <connections>
+                                            <action selector="recorButtonPressed:" destination="JEX-9P-axG" eventType="touchUpInside" id="2uL-UD-9q8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Db9-Fs-jcs">
+                                        <rect key="frame" x="35" y="0.0" width="30" height="30"/>
+                                        <state key="normal" title="▶️"/>
+                                        <connections>
+                                            <action selector="playButtonPressed:" destination="JEX-9P-axG" eventType="touchUpInside" id="xxI-qK-Ccd"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jGC-Gi-3uj">
+                                        <rect key="frame" x="70" y="0.0" width="30" height="30"/>
+                                        <state key="normal" title="⏺"/>
+                                        <connections>
+                                            <action selector="stopButtonPressed:" destination="JEX-9P-axG" eventType="touchUpInside" id="7Td-y3-vzy"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Qj-ou-sw4">
+                                        <rect key="frame" x="105" y="0.0" width="30" height="30"/>
+                                        <state key="normal" title="⏸"/>
+                                        <connections>
+                                            <action selector="pauseButtonPressed:" destination="JEX-9P-axG" eventType="touchUpInside" id="wiH-ww-dmy"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="0Z1-3c-GUy"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3pn-cq-NlE">
+                                <rect key="frame" x="30" y="770" width="354" height="0.0"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="8"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="VUw-jc-0yf" firstAttribute="bottom" secondItem="mME-R4-KKW" secondAttribute="bottom" constant="10" id="9AE-pB-mP6"/>
-                            <constraint firstItem="mME-R4-KKW" firstAttribute="top" secondItem="Tq4-bD-0du" secondAttribute="bottom" constant="10" id="9LT-ws-sW5"/>
-                            <constraint firstItem="Tq4-bD-0du" firstAttribute="top" secondItem="VUw-jc-0yf" secondAttribute="top" constant="10" id="G1y-oj-je3"/>
+                            <constraint firstItem="mME-R4-KKW" firstAttribute="top" secondItem="Tq4-bD-0du" secondAttribute="bottom" constant="5" id="9LT-ws-sW5"/>
+                            <constraint firstItem="Tq4-bD-0du" firstAttribute="top" secondItem="VUw-jc-0yf" secondAttribute="top" constant="5" id="G1y-oj-je3"/>
                             <constraint firstItem="0XM-y9-sOw" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" constant="20" symbolic="YES" id="Tsc-yG-G1q"/>
                             <constraint firstItem="VUw-jc-0yf" firstAttribute="trailing" secondItem="Tq4-bD-0du" secondAttribute="trailing" constant="30" id="eTj-vc-Qac"/>
+                            <constraint firstItem="3pn-cq-NlE" firstAttribute="leading" secondItem="VUw-jc-0yf" secondAttribute="leading" constant="30" id="fRK-1Y-mYc"/>
                             <constraint firstItem="0XM-y9-sOw" firstAttribute="centerY" secondItem="svH-Pt-448" secondAttribute="centerY" id="jWN-iV-94e"/>
                             <constraint firstItem="VUw-jc-0yf" firstAttribute="trailing" secondItem="mME-R4-KKW" secondAttribute="trailing" constant="30" id="kLh-wK-EoQ"/>
+                            <constraint firstItem="VUw-jc-0yf" firstAttribute="bottom" secondItem="BO5-f8-IGB" secondAttribute="bottom" constant="10" id="nlb-90-VNO"/>
                             <constraint firstItem="mME-R4-KKW" firstAttribute="leading" secondItem="VUw-jc-0yf" secondAttribute="leading" constant="30" id="pL0-Ez-7rs"/>
+                            <constraint firstItem="VUw-jc-0yf" firstAttribute="trailing" secondItem="3pn-cq-NlE" secondAttribute="trailing" constant="30" id="pO5-xV-ydl"/>
+                            <constraint firstItem="BO5-f8-IGB" firstAttribute="centerX" secondItem="svH-Pt-448" secondAttribute="centerX" id="rW7-gQ-m3X"/>
+                            <constraint firstItem="3pn-cq-NlE" firstAttribute="centerX" secondItem="svH-Pt-448" secondAttribute="centerX" id="rpA-PH-cNR"/>
+                            <constraint firstItem="BO5-f8-IGB" firstAttribute="top" secondItem="3pn-cq-NlE" secondAttribute="bottom" constant="3" id="s3T-iB-bLZ"/>
                             <constraint firstAttribute="trailing" secondItem="0XM-y9-sOw" secondAttribute="trailing" constant="20" symbolic="YES" id="tHV-ZD-HQj"/>
                             <constraint firstItem="Tq4-bD-0du" firstAttribute="leading" secondItem="VUw-jc-0yf" secondAttribute="leading" constant="30" id="wis-FR-ma4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VUw-jc-0yf"/>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="Item" image="music.mic" catalog="system" id="RhA-8G-15T">
-                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </barButtonItem>
                         <barButtonItem image="camera" catalog="system" id="VY6-dL-re7">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </barButtonItem>
@@ -112,6 +159,8 @@
                         <outlet property="navigationbar" destination="mOI-FS-AaM" id="Bxl-f4-Fy7"/>
                         <outlet property="notecontent" destination="mME-R4-KKW" id="NlC-ol-NcV"/>
                         <outlet property="notetitlefld" destination="tkg-Gs-IsB" id="ZET-MG-eY9"/>
+                        <outlet property="recordButton" destination="bUc-b1-eot" id="J77-xZ-wdp"/>
+                        <outlet property="recordInfo" destination="3pn-cq-NlE" id="4t5-qK-rrJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
@@ -312,7 +361,6 @@
     <resources>
         <image name="camera" catalog="system" width="64" height="48"/>
         <image name="folder.badge.plus" catalog="system" width="64" height="42"/>
-        <image name="music.mic" catalog="system" width="64" height="58"/>
         <image name="square.and.pencil" catalog="system" width="64" height="58"/>
     </resources>
     <inferredMetricsTieBreakers>

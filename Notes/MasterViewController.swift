@@ -140,7 +140,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         alertController.addAction(addItemAction)
             
         self.present(alertController, animated: true, completion: nil)
-        
     }
     
     func updateData() {
