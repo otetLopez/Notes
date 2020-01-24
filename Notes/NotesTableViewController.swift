@@ -82,7 +82,7 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let object = noteList[indexPath.row]
+                let object = resultSearchController.isActive ?  filteredTableData[indexPath.row] : noteList[indexPath.row]
                 
                 print("DEBUG: checking what detail we are passing to detail")
                 print(noteList[indexPath.row])
