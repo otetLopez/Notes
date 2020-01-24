@@ -124,16 +124,26 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let note = noteList[indexPath.row]
+        let note = self.resultSearchController.isActive ? filteredTableData[indexPath.row] : noteList[indexPath.row]
         if editingStyle == .delete {
-            noteList.remove(at: indexPath.row)
+            if self.resultSearchController.isActive {
+                filteredTableData.remove(at:indexPath.row)
+                var  nIdx : Int = 0
+                for thisNote in noteList {
+                    if thisNote.getTitle() == note.getTitle() {
+                        noteList.remove(at: nIdx)
+                    }
+                    nIdx += 1
+                }
+            } else {
+                noteList.remove(at: indexPath.row)
+            }
             tableView.deleteRows(at: [indexPath], with: .fade)
-            
+            tableView.reloadData()
             // Delete Core Data
             deleteCoreData(note: note)
             // Now update the folder where it belongs to
             delegate?.deleteNoteFromFolder(note : note, fname: (detailItem?.getFolderName())!)
-            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }

@@ -367,7 +367,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     func deleteNoteFromList(note: Note) {
         var nIdx : Int = 0
         for noteIdx in allNotesList {
-            if noteIdx.getTitle() == note.getTitle() && noteIdx.getInfo() == note.getInfo() && noteIdx.getAddress() == note.getAddress() {
+            if noteIdx.getTitle() == note.getTitle() {//&& noteIdx.getInfo() == note.getInfo() && noteIdx.getAddress() == note.getAddress() {
                 allNotesList.remove(at: nIdx)
             }
             nIdx += 1
