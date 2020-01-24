@@ -115,6 +115,12 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
         let cell = tableView.dequeueReusableCell(withIdentifier: "notes", for: indexPath)
         let object = resultSearchController.isActive ? filteredTableData[indexPath.row] : noteList[indexPath.row]
         cell.textLabel!.text = object.getTitle()
+        var peekStr = object.getInfo()
+        var offsetIdx : Int = peekStr.count
+        if peekStr.count > 48 { offsetIdx = 48 }
+        let allowedIndx = peekStr.index(peekStr.startIndex, offsetBy: offsetIdx)
+        peekStr = peekStr.count > 0 ? (peekStr[..<allowedIndx] + "...") : "empty"
+        cell.detailTextLabel!.text = peekStr
         return cell
     }
 

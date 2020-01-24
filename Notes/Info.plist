@@ -67,6 +67,10 @@
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This application takes note of location where note is created.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string></string>
+	<key>NSFileProviderDomainUsageDescription</key>
+	<string></string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
