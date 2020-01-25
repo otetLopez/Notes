@@ -82,35 +82,39 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="BO5-f8-IGB">
-                                <rect key="frame" x="139.5" y="773" width="135" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="BO5-f8-IGB">
+                                <rect key="frame" x="124.5" y="773" width="165" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bUc-b1-eot">
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="🔘"/>
                                         <connections>
                                             <action selector="recorButtonPressed:" destination="JEX-9P-axG" eventType="touchUpInside" id="2uL-UD-9q8"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Db9-Fs-jcs">
-                                        <rect key="frame" x="35" y="0.0" width="30" height="30"/>
+                                        <rect key="frame" x="45" y="0.0" width="30" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="▶️"/>
                                         <connections>
                                             <action selector="playButtonPressed:" destination="JEX-9P-axG" eventType="touchUpInside" id="xxI-qK-Ccd"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jGC-Gi-3uj">
-                                        <rect key="frame" x="70" y="0.0" width="30" height="30"/>
+                                        <rect key="frame" x="90" y="0.0" width="30" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="⏺"/>
                                         <connections>
                                             <action selector="stopButtonPressed:" destination="JEX-9P-axG" eventType="touchUpInside" id="7Td-y3-vzy"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Qj-ou-sw4">
-                                        <rect key="frame" x="105" y="0.0" width="30" height="30"/>
-                                        <state key="normal" title="⏸"/>
+                                        <rect key="frame" x="135" y="0.0" width="30" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="🆓"/>
                                         <connections>
-                                            <action selector="pauseButtonPressed:" destination="JEX-9P-axG" eventType="touchUpInside" id="wiH-ww-dmy"/>
+                                            <action selector="deleteButton:" destination="JEX-9P-axG" eventType="touchUpInside" id="M1B-0z-fnf"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -170,7 +174,6 @@
         <!--Location-->
         <scene sceneID="Eep-ur-adc">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HU3-N3-JGV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="EpF-Bb-reY" customClass="MapViewController" customModule="Notes_Organizer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Nt7-4V-PjG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -194,6 +197,7 @@
                         <outlet property="mapView" destination="4fj-fX-LLx" id="D3f-xU-k37"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HU3-N3-JGV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1481" y="127"/>
         </scene>

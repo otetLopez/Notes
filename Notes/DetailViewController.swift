@@ -108,7 +108,6 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         if !(note!.getAudio().isEmpty) {
             recordInfo!.text = "This note contains recorded audio.  Replay or tap record button to record again"
             filename = note!.getAudio()
-//            audioSet = URL(fileURLWithPath: filename!)
             audioSet = getDocumentsDirectory().appendingPathComponent(filename!)
             print("DEBUG: This is the audio's file stored \(filename!)")
             playable = true
@@ -329,10 +328,19 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         } else { player.stop() }
     }
     
-    @IBAction func pauseButtonPressed(_ sender: Any) {
-        if playable == false {
-            alertMessage(title: "Cannot pause audio!", msg: "This note either does not contain audio or you are still on record")
-        } else { player.pause() }
+    @IBAction func deleteButton(_ sender: UIButton) {
+        let alertController = UIAlertController(title: "Warning!", message: "Tapping 🆓 will remove the recorded audio in this note", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Remove Audio", style: .destructive) { (action) in
+            self.note?.setAudio(audio: "")
+            self.recordInfo!.text = ""
+            self.filename = "\(self.note!.getFolder())-\(self.note!.getTitle())-recording.m4a"
+            self.audioSet = self.getDocumentsDirectory().appendingPathComponent(self.filename!)
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func alertMessage(title: String, msg: String) {
