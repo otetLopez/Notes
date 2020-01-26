@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import AVFoundation
 
-class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudioRecorderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudioRecorderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextViewDelegate {
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
 
@@ -19,6 +19,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
     @IBOutlet weak var mapfld: UITextField!
     @IBOutlet weak var notetitlefld: UITextField!
     @IBOutlet weak var notecontent: UITextView!
+    @IBOutlet weak var donEditButton: UIBarButtonItem!
     
     var note : Note?
     var oldNote : Note?
@@ -63,6 +64,13 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             if let label = detailDescriptionLabel {
                 label.text = detail.getTitle()
             }
+            
+            //In case note contains images
+            if !(note!.getImage().isEmpty) {
+                print("DEBUG: Note contains image")
+                getImages()
+            }
+            
         } else {
             mod = false
             note = Note()
@@ -78,6 +86,8 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         mapViewMode = false
         playable = false
         filename = ""
+        donEditButton.title = ""
+        notecontent.delegate = self
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -122,10 +132,9 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         catch { print(error) }
         
         
-        // Make sure keyboard hides after tapping
+        // Make sure keyboard hides after typing
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         self.view.addGestureRecognizer(tapGesture)
-  
     }
 
     var detailItem: Note? {
@@ -169,16 +178,13 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         if mapViewMode == false {
             print("DEBUG: Modification status \(mod)")
             if !(notetitlefld.text?.isEmpty ?? true) {
-
                 note?.setTitle(title: notetitlefld.text!)
                 note?.setInfo(info: notecontent.text!)
                 note?.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
-                
+            
                 if mod == true {
                     // We are editing existing note
-                    print("DEBUG \(temporaryNote)")
                     delegate?.updateNote(oldNote : temporaryNote!, newNote: note!)
-                     
                 }
                 
                 if mod == false {
@@ -237,7 +243,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
                 }
                 
                 self.address = "\(thoroufare) \(subLocality) \(subAdministrativeArea) \(country)"
-                print("DEBUG: \(self.address)")
+                //print("DEBUG: \(self.address)")
                 if self.note?.getAddress().isEmpty ?? true {
                     self.coordinates = location
                     self.mapfld.text = "🗺 : \(thoroufare) \(subLocality) \(subAdministrativeArea) \(country)"
@@ -254,7 +260,15 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
                }
     }
 
-
+    @IBAction func doneTyping(_ sender: UIBarButtonItem) {
+        donEditButton.title = ""
+        notetitlefld.resignFirstResponder()
+        notecontent.resignFirstResponder()
+        var frame = self.notecontent.frame
+        frame.size.height = 470//self.notecontent.contentSize.height
+        self.notecontent.frame = frame
+    }
+    
     func startRecording() {
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -359,6 +373,13 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
          self.present(alertController, animated: true, completion: nil)
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        donEditButton.title = "Done"
+        var frame = self.notecontent.frame
+        frame.size.height = 200//self.notecontent.contentSize.height
+        self.notecontent.frame = frame
+    }
+    
     @IBAction func setImage(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Insert Image", message: "Choose image source", preferredStyle: .alert)
         let rollAction = UIAlertAction(title: "From Camera Roll", style: .default) { (action) in
@@ -407,14 +428,142 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             print("No image found")
             return
         }
+        
+        setImage(image: image)
 
-        // print out the image size as a test
-        print(image.size)
+        // Then we save the image
+        let imageName = generateImageName()
+        let fileManager = FileManager.default
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        //get the PNG data for this image
+        let data = image.pngData()
+        //store it in the document directory
+        fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
+        print("DEBUG: This is the imagePath \(imagePath)")
+        saveImageToDocumentDirectory(image)
+        
+        //Then save it for CoreData to save
+        let images = note!.getImage()
+        print("DEBUG: This is the imagename \(images)\(imageName) to save")
+        note?.setImage(image: "\(imageName)")
+        //note?.setImage(image: "\(images)\(imageName)")
+        
 //        var exclusionPath:UIBezierPath = UIBezierPath(rect: CGRectMake(0, 0, image.frame.size.width, image.frame.size.height))
 //
 //        textView.textContainer.exclusionPaths  = [exclusionPath]
 //        textView.addSubview(imageView)
     }
+    
+    func setImage(image : UIImage) {
+        let imageView = UIImageView(image: image)
+
+        //let origin : CGPoint = notecontent!.frame.origin
+          
+        // Get cursor position
+        //https://stackoverflow.com/questions/34922331/getting-and-setting-cursor-position-of-uitextfield-and-uitextview-in-swift
+          
+//        let startPosition: UITextPosition = notecontent.beginningOfDocument
+//        let endPosition: UITextPosition = notecontent.endOfDocument
+//        let selectedRange: UITextRange? = notecontent.selectedTextRange
+//
+//        if let selectedRange = notecontent.selectedTextRange {
+//            let cursorPosition = notecontent.offset(from: notecontent.beginningOfDocument, to: selectedRange.start)
+//            print("\(cursorPosition)")
+//        }
+        //notecontent.frame.width.m
+        imageView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        //imageView.frame = CGRect(x: 0, y: cursorPosition, width: 200, height: 200)
+        print("DEBUG: Now saving image")
+        notecontent?.addSubview(imageView)
+    }
+    
+    func generateImageName() -> String {
+        //Set the base image name
+        var imageName : String = ""
+        if (note?.getImage().isEmpty)! {
+            imageName = ("0-\(note!.getFolder())-\(note!.getTitle())-image.png").replacingOccurrences(of: " ", with: "_")
+        } else {
+//            var strTemp : String = (note?.getImage())!
+//            //Get the last image
+//            let images = strTemp.components(separatedBy:",")
+//            let lastImage = images[images.count-2]
+//            //Get the idNo of the last image
+//            let ids = lastImage.components(separatedBy:"-")
+//            let id : Int = Int(ids[0])!
+            let id : Int = 0
+            imageName = ("\(id)-\(note!.getFolder())-\(note!.getTitle())-image.png").replacingOccurrences(of: " ", with: "_")
+        }
+        imageName = ("0-\(note!.getFolder())-\(note!.getTitle())-image.png").replacingOccurrences(of: " ", with: "_")
+        print("DEBUG: Image file name \(imageName)")
+        return imageName
+    }
+    
+    func getImages() {
+        let images = note!.getImage().components(separatedBy: ",")
+        print("DEBUG: Note contains \(images.count - 1) images")
+        for image in images {
+            if image != "" {
+                print("DEBUG: Getting image for \(image)")
+                getImage(imageName: image)
+            }
+        }
+        
+    }
+    
+    func getImage(imageName: String){
+       let fileManager = FileManager.default
+       let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        print("DEBUG: Getting image from \(imagePath)")
+        
+       if fileManager.fileExists(atPath: imagePath){
+          //imageView.image = UIImage(contentsOfFile: imagePath)
+        print("DEBUG: Image file exists in path \(imagePath)")
+        setImage(image: UIImage(contentsOfFile: imagePath)!)
+       }else{
+          print("Panic! No Image!")
+       }
+    }
+    
+    func saveImageToDocumentDirectory(_ chosenImage: UIImage) -> String {
+        let directoryPath =  NSHomeDirectory().appending("/Documents/")
+        if !FileManager.default.fileExists(atPath: directoryPath) {
+            do {
+                try FileManager.default.createDirectory(at: NSURL.fileURL(withPath: directoryPath), withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print(error)
+            }
+        }
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMddhhmmss"
+
+        let filename = generateImageName()//"0-camera-camera-image.png"//dateFormatter.string(from: Date()).appending(".jpg")
+        let filepath = directoryPath.appending(filename)
+        print("DEBUG: This is the new image path \(filepath)")
+        let url = NSURL.fileURL(withPath: filepath)
+        do {
+            try chosenImage.jpegData(compressionQuality: 1.0)?.write(to: url, options: .atomic)
+            return String.init("/Documents/\(filename)")
+
+        } catch {
+            print(error)
+            print("file cant not be save at path \(filepath), with error : \(error)");
+            return filepath
+        }
+    }
+    
+//    func saveImage(imageView: ImageView) {
+//       //create an instance of the FileManager
+//       let fileManager = FileManager.default
+//       //get the image path
+//       let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+//       //get the image we took with camera
+//       let image = imageView.image!
+//       //get the PNG data for this image
+//       let data = UIImagePNGRepresentation(image)
+//       //store it in the document directory    fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
+//    }
+    
     
 }
 

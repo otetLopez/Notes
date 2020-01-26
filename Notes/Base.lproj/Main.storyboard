@@ -72,11 +72,11 @@
                                     </textField>
                                 </subviews>
                             </stackView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mME-R4-KKW">
-                                <rect key="frame" x="30" y="268" width="354" height="350"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" pagingEnabled="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mME-R4-KKW">
+                                <rect key="frame" x="30" y="268" width="354" height="470"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="350" id="1OS-wC-RRv"/>
+                                    <constraint firstAttribute="height" constant="470" id="1OS-wC-RRv"/>
                                 </constraints>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -157,11 +157,18 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="New Note" id="mOI-FS-AaM"/>
+                    <navigationItem key="navigationItem" title="New Note" id="mOI-FS-AaM">
+                        <barButtonItem key="rightBarButtonItem" id="cOu-9X-zUe">
+                            <connections>
+                                <action selector="doneTyping:" destination="JEX-9P-axG" id="jVC-2l-LV8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="datefld" destination="vlL-hn-GMG" id="0vL-kg-h2K"/>
                         <outlet property="detailDescriptionLabel" destination="0XM-y9-sOw" id="deQ-Na-JPF"/>
+                        <outlet property="donEditButton" destination="cOu-9X-zUe" id="svg-fz-JwJ"/>
                         <outlet property="mapfld" destination="rqG-HR-1TR" id="5uA-Bn-WRe"/>
                         <outlet property="navigationbar" destination="mOI-FS-AaM" id="Bxl-f4-Fy7"/>
                         <outlet property="notecontent" destination="mME-R4-KKW" id="NlC-ol-NcV"/>
