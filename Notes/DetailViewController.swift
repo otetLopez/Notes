@@ -362,11 +362,11 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
     @IBAction func setImage(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Insert Image", message: "Choose image source", preferredStyle: .alert)
         let rollAction = UIAlertAction(title: "From Camera Roll", style: .default) { (action) in
-            
+            self.takePhoto(source: .savedPhotosAlbum)
         }
         
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (action) in
-            self.takePhoto()
+        let cameraAction = UIAlertAction(title: "Take Photo", style: .default) { (action) in
+            self.takePhoto(source: .camera)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -378,16 +378,26 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func takePhoto() {
-        if !UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alertMessage(title: "Error", msg: "Device has no camera or App has no access to camera")
-        } else {
-            let vc = UIImagePickerController()
-            vc.sourceType = .camera
-            vc.allowsEditing = true
-            vc.delegate = self
+    func takePhoto(source: UIImagePickerController.SourceType) {
+        let vc = UIImagePickerController()
+        vc.allowsEditing = true
+        vc.delegate = self
+        
+        switch(source) {
+        case .camera:
+            if !UIImagePickerController.isSourceTypeAvailable(.camera) {
+                alertMessage(title: "Error", msg: "Device has no camera or App has no access to camera")
+            } else {
+                vc.sourceType = .camera
+                self.present(vc, animated: true)
+            }
+        case .savedPhotosAlbum:
+            vc.sourceType = .savedPhotosAlbum
             self.present(vc, animated: true)
+        default:
+            break
         }
+
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
