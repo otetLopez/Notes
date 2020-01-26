@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import AVFoundation
 
-class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudioRecorderDelegate {
+class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudioRecorderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
 
@@ -360,5 +360,49 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
              
          self.present(alertController, animated: true, completion: nil)
     }
+    
+    @IBAction func setImage(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: "Insert Image", message: "Choose image source", preferredStyle: .alert)
+        let rollAction = UIAlertAction(title: "From Camera Roll", style: .default) { (action) in
+            
+        }
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (action) in
+            self.takePhoto()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(cameraAction)
+        alertController.addAction(rollAction)
+        alertController.addAction(cancelAction)
+             
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func takePhoto() {
+        if !UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alertMessage(title: "Error", msg: "Device has no camera or App has no access to camera")
+        } else {
+            let vc = UIImagePickerController()
+            vc.sourceType = .camera
+            vc.allowsEditing = true
+            vc.delegate = self
+            self.present(vc, animated: true)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+
+        guard let image = info[.editedImage] as? UIImage else {
+            print("No image found")
+            return
+        }
+
+        // print out the image size as a test
+        print(image.size)
+    }
+    
 }
 

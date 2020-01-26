@@ -152,6 +152,9 @@
                     <toolbarItems>
                         <barButtonItem image="camera" catalog="system" id="VY6-dL-re7">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="setImage:" destination="JEX-9P-axG" id="KKO-YR-a2d"/>
+                            </connections>
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="New Note" id="mOI-FS-AaM"/>
