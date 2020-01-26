@@ -96,6 +96,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         if editingStyle == .delete {
             print("DEBUG: removing folder \(folderList[indexPath.row].getFolderName()) from \(folderList.count)")
             deleteCoreData(format: folderList[indexPath.row].getFolderName())
+            deleteNotesFromFolder(folderName : folderList[indexPath.row].getFolderName())
             folderList.remove(at: indexPath.row)
             print("DEBUG: removed and folder count is \(folderList.count)")
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -373,6 +374,39 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
         saveCoreData(entityName: "NoteEntity")
         saveCoreData(entityName: "FolderEntity")
+    }
+    
+    func deleteNotesFromFolder(folderName : String) {
+        //First we need to remove it from the notesList array
+        var noteIdx : Int = allNotesList.count-1
+        repeat {
+            if allNotesList[noteIdx].getFolder() == folderName {
+                allNotesList.remove(at: noteIdx)
+            }
+            noteIdx -= 1
+        } while noteIdx >= 0
+        
+        //Then delete it from the core data
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let deleteRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "NoteEntity")
+        // Helps filter the query
+        deleteRequest.predicate = NSPredicate(format: "folder=%@", folderName)
+        deleteRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(deleteRequest)
+            if results.count > 0 {
+                for idx in results as! [NSManagedObject] {
+                    // Delete the user or entity
+                    if let fname = idx.value(forKey: "folder") as? String {
+                        context.delete(idx)
+                        do {
+                            try context.save()
+                        } catch { print(error) }
+                    }
+                }
+            }
+        } catch { print(error) }
     }
     
     func updateNotesData(oldNote: Note, newNote: Note) {
