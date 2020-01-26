@@ -102,7 +102,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             }
         } catch { print(error) }
         // Set Up Audio
-        filename = (note?.getAudio().isEmpty)! ? ("\(detailItem!.getFolder())-\(detailItem!.getTitle())-recording.m4a") : note!.getAudio()
+        filename = (note?.getAudio().isEmpty)! ? ("\(note!.getFolder())-\(note!.getTitle())-recording.m4a") : note!.getAudio()
         
         
         if !(note!.getAudio().isEmpty) {
@@ -112,7 +112,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             print("DEBUG: This is the audio's file stored \(filename!)")
             playable = true
         } else { recordInfo!.text = ""
-            filename = "\(detailItem!.getFolder())-\(detailItem!.getTitle())-recording.m4a"
+            filename = "\(note!.getFolder())-\(note!.getTitle())-recording.m4a"
             audioSet = getDocumentsDirectory().appendingPathComponent(filename!)
         }
         print("DEBUG: This is the audio's file name \(filename!)")
