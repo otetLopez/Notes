@@ -102,8 +102,6 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             }
         } catch { print(error) }
         // Set Up Audio
-        filename = (note?.getAudio().isEmpty)! ? ("\(note!.getFolder())-\(note!.getTitle())-recording.m4a") : note!.getAudio()
-        
         if !(note!.getAudio().isEmpty) {
             recordInfo!.text = "This note contains recorded audio.  Replay or tap record button to record again"
             filename = note!.getAudio()
@@ -111,7 +109,8 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             print("DEBUG: This is the audio's file stored \(filename!)")
             playable = true
         } else { recordInfo!.text = ""
-            filename = "\(note!.getFolder())-\(note!.getTitle())-recording.m4a"
+            let tempStr = "\(note!.getFolder())-\(note!.getTitle())-recording.m4a"
+            filename = tempStr.replacingOccurrences(of: " ", with: "_")
             audioSet = getDocumentsDirectory().appendingPathComponent(filename!)
         }
         print("DEBUG: This is the audio's file name \(filename!)")
@@ -344,8 +343,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         let deleteAction = UIAlertAction(title: "Remove Audio", style: .destructive) { (action) in
             self.note?.setAudio(audio: "")
             self.recordInfo!.text = ""
-            self.filename = "\(self.note!.getFolder())-\(self.note!.getTitle())-recording.m4a"
-            self.audioSet = self.getDocumentsDirectory().appendingPathComponent(self.filename!)
+            self.filename = ""
         }
         alertController.addAction(cancelAction)
         alertController.addAction(deleteAction)
@@ -402,6 +400,10 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
 
         // print out the image size as a test
         print(image.size)
+//        var exclusionPath:UIBezierPath = UIBezierPath(rect: CGRectMake(0, 0, image.frame.size.width, image.frame.size.height))
+//
+//        textView.textContainer.exclusionPaths  = [exclusionPath]
+//        textView.addSubview(imageView)
     }
     
 }
