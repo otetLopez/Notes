@@ -104,7 +104,6 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         // Set Up Audio
         filename = (note?.getAudio().isEmpty)! ? ("\(note!.getFolder())-\(note!.getTitle())-recording.m4a") : note!.getAudio()
         
-        
         if !(note!.getAudio().isEmpty) {
             recordInfo!.text = "This note contains recorded audio.  Replay or tap record button to record again"
             filename = note!.getAudio()
@@ -118,10 +117,15 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         print("DEBUG: This is the audio's file name \(filename!)")
             
         do {
-            let audioFilename = audioSet!//getDocumentsDirectory().appendingPathComponent(filename!)
+            let audioFilename = audioSet!
             player = try AVAudioPlayer(contentsOf: audioFilename)
         }
         catch { print(error) }
+        
+        
+        // Make sure keyboard hides after tapping
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        self.view.addGestureRecognizer(tapGesture)
   
     }
 
@@ -131,6 +135,11 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             note = detailItem
             configureView()
         }
+    }
+    
+    @objc func viewTapped() {
+        notetitlefld.resignFirstResponder()
+        notecontent.resignFirstResponder()
     }
     
     @IBAction func mapviewfldpressed(_ sender: Any) {
