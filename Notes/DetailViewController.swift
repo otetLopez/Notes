@@ -395,6 +395,18 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         alertController.addAction(cameraAction)
         alertController.addAction(rollAction)
         alertController.addAction(cancelAction)
+        
+        if !(note?.getImage().isEmpty ?? true) {
+            let deleteAction = UIAlertAction(title: "Remove Photo", style: .destructive) { (action) in
+                self.note!.setImage(image: "")
+                for view in self.notecontent!.subviews {
+                    if view is UIImageView {
+                    view.removeFromSuperview()
+                    }
+                }
+            }
+            alertController.addAction(deleteAction)
+        }
              
         self.present(alertController, animated: true, completion: nil)
     }
