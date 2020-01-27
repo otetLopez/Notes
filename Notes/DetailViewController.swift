@@ -459,31 +459,30 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         print("DEBUG: This is the imagename \(images)\(imageName) to save")
         note?.setImage(image: "\(imageName)")
         //note?.setImage(image: "\(images)\(imageName)")
-        
-//        var exclusionPath:UIBezierPath = UIBezierPath(rect: CGRectMake(0, 0, image.frame.size.width, image.frame.size.height))
-//
-//        textView.textContainer.exclusionPaths  = [exclusionPath]
-//        textView.addSubview(imageView)
     }
     
     func setImage(image : UIImage) {
         let imageView = UIImageView(image: image)
 
-        //let origin : CGPoint = notecontent!.frame.origin
+        //let origin : CGPoint = (notecontent?.frame.origin)!
+        //print("DEBUG: This is the origin \(origin)")
           
         // Get cursor position
         //https://stackoverflow.com/questions/34922331/getting-and-setting-cursor-position-of-uitextfield-and-uitextview-in-swift
           
-//        let startPosition: UITextPosition = notecontent.beginningOfDocument
-//        let endPosition: UITextPosition = notecontent.endOfDocument
-//        let selectedRange: UITextRange? = notecontent.selectedTextRange
+//        let startPosition: UITextPosition = notecontent?.beginningOfDocument
+//        let endPosition: UITextPosition = notecontent?.endOfDocument
+//        let selectedRange: UITextRange? = notecontent?.selectedTextRange
 //
 //        if let selectedRange = notecontent.selectedTextRange {
 //            let cursorPosition = notecontent.offset(from: notecontent.beginningOfDocument, to: selectedRange.start)
 //            print("\(cursorPosition)")
 //        }
-        //notecontent.frame.width.m
-        imageView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+
+
+        //var cursorPosition : CGPoint = [notecontent caretRectForPosition:notecontent.selectedTextRange.start].origin;
+        
+        imageView.frame = CGRect(x: 70, y: 280, width: 250, height: 200)
         //imageView.frame = CGRect(x: 0, y: cursorPosition, width: 200, height: 200)
         print("DEBUG: Now saving image")
         notecontent?.addSubview(imageView)

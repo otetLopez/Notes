@@ -410,7 +410,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
     
     func updateNotesData(oldNote: Note, newNote: Note) {
-        print("DEBUG: Updating Note Data from \(oldNote) to \(newNote)")
+        //print("DEBUG: Updating Note Data from \(oldNote) to \(newNote)")
         var nIdx : Int = 0
         for noteIdx in allNotesList {
             if noteIdx.getTitle() == oldNote.getTitle() { //&& noteIdx.getInfo() == oldNote.getInfo() && noteIdx.getAddress() == oldNote.getAddress() {
