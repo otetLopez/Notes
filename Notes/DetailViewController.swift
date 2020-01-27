@@ -482,7 +482,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
 
         //var cursorPosition : CGPoint = [notecontent caretRectForPosition:notecontent.selectedTextRange.start].origin;
         
-        imageView.frame = CGRect(x: 70, y: 280, width: 250, height: 200)
+        imageView.frame = CGRect(x: 60, y: 280, width: 250, height: 200)
         //imageView.frame = CGRect(x: 0, y: cursorPosition, width: 200, height: 200)
         print("DEBUG: Now saving image")
         notecontent?.addSubview(imageView)

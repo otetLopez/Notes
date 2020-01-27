@@ -16,6 +16,7 @@
 		F597874A23D0F49C003A4D7D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F597874823D0F49C003A4D7D /* Main.storyboard */; };
 		F597874C23D0F4A2003A4D7D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F597874B23D0F4A2003A4D7D /* Assets.xcassets */; };
 		F597874F23D0F4A2003A4D7D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F597874D23D0F4A2003A4D7D /* LaunchScreen.storyboard */; };
+		F598523123DE9C050052CFF6 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = F598523023DE9C050052CFF6 /* folder.png */; };
 		F5B257BF23D7C45C00757611 /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B257BE23D7C45C00757611 /* NotesTableViewController.swift */; };
 		F5B257C223D7CE7400757611 /* Notes_Organizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F5B257C023D7CE7400757611 /* Notes_Organizer.xcdatamodeld */; };
 		F5B257C423D7D5BD00757611 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F5B257C323D7D5BD00757611 /* folder-icon.png */; };
@@ -35,6 +36,7 @@
 		F597874B23D0F4A2003A4D7D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F597874E23D0F4A2003A4D7D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F597875023D0F4A2003A4D7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F598523023DE9C050052CFF6 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
 		F5B257BE23D7C45C00757611 /* NotesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
 		F5B257C123D7CE7400757611 /* Notes_Organizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Notes_Organizer.xcdatamodel; sourceTree = "<group>"; };
 		F5B257C323D7D5BD00757611 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				F505E1B823D798040025A656 /* Folders.swift */,
 				F5B257C023D7CE7400757611 /* Notes_Organizer.xcdatamodeld */,
 				F5B257C923DA3E9E00757611 /* folder-icon2.png */,
+				F598523023DE9C050052CFF6 /* folder.png */,
 				F5B257C323D7D5BD00757611 /* folder-icon.png */,
 			);
 			path = Model;
@@ -162,6 +165,7 @@
 				F597874C23D0F4A2003A4D7D /* Assets.xcassets in Resources */,
 				F5B257CA23DA3E9E00757611 /* folder-icon2.png in Resources */,
 				F597874A23D0F49C003A4D7D /* Main.storyboard in Resources */,
+				F598523123DE9C050052CFF6 /* folder.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
