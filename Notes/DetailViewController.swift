@@ -186,6 +186,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
                 if mod == true {
                     // We are editing existing note
                     delegate?.updateNote(oldNote : temporaryNote!, newNote: note!)
+                    delegate?.loadCoreData()
                 }
                 
                 if mod == false {
