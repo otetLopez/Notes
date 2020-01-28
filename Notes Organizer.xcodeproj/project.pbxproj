@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		F505E1B723D797F80025A656 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = F505E1B623D797F80025A656 /* Note.swift */; };
 		F505E1B923D798040025A656 /* Folders.swift in Sources */ = {isa = PBXBuildFile; fileRef = F505E1B823D798040025A656 /* Folders.swift */; };
+		F58407BB23E0FAF000607C02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F58407BA23E0FAF000607C02 /* Assets.xcassets */; };
 		F597874123D0F49C003A4D7D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F597874023D0F49C003A4D7D /* AppDelegate.swift */; };
 		F597874323D0F49C003A4D7D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F597874223D0F49C003A4D7D /* SceneDelegate.swift */; };
 		F597874523D0F49C003A4D7D /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F597874423D0F49C003A4D7D /* MasterViewController.swift */; };
 		F597874723D0F49C003A4D7D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F597874623D0F49C003A4D7D /* DetailViewController.swift */; };
 		F597874A23D0F49C003A4D7D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F597874823D0F49C003A4D7D /* Main.storyboard */; };
-		F597874C23D0F4A2003A4D7D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F597874B23D0F4A2003A4D7D /* Assets.xcassets */; };
 		F597874F23D0F4A2003A4D7D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F597874D23D0F4A2003A4D7D /* LaunchScreen.storyboard */; };
 		F598523123DE9C050052CFF6 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = F598523023DE9C050052CFF6 /* folder.png */; };
 		F5B257BF23D7C45C00757611 /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B257BE23D7C45C00757611 /* NotesTableViewController.swift */; };
@@ -27,13 +27,13 @@
 /* Begin PBXFileReference section */
 		F505E1B623D797F80025A656 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		F505E1B823D798040025A656 /* Folders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folders.swift; sourceTree = "<group>"; };
+		F58407BA23E0FAF000607C02 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Notes/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		F597873D23D0F49C003A4D7D /* Notes Organizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Notes Organizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F597874023D0F49C003A4D7D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F597874223D0F49C003A4D7D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F597874423D0F49C003A4D7D /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		F597874623D0F49C003A4D7D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F597874923D0F49C003A4D7D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		F597874B23D0F4A2003A4D7D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F597874E23D0F4A2003A4D7D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F597875023D0F4A2003A4D7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F598523023DE9C050052CFF6 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
@@ -94,8 +94,8 @@
 				F5B257BE23D7C45C00757611 /* NotesTableViewController.swift */,
 				F597874623D0F49C003A4D7D /* DetailViewController.swift */,
 				F597874823D0F49C003A4D7D /* Main.storyboard */,
+				F58407BA23E0FAF000607C02 /* Assets.xcassets */,
 				F5B257C523D96CB000757611 /* MapViewController.swift */,
-				F597874B23D0F4A2003A4D7D /* Assets.xcassets */,
 				F597874D23D0F4A2003A4D7D /* LaunchScreen.storyboard */,
 				F597875023D0F4A2003A4D7D /* Info.plist */,
 			);
@@ -162,8 +162,8 @@
 			files = (
 				F5B257C423D7D5BD00757611 /* folder-icon.png in Resources */,
 				F597874F23D0F4A2003A4D7D /* LaunchScreen.storyboard in Resources */,
-				F597874C23D0F4A2003A4D7D /* Assets.xcassets in Resources */,
 				F5B257CA23DA3E9E00757611 /* folder-icon2.png in Resources */,
+				F58407BB23E0FAF000607C02 /* Assets.xcassets in Resources */,
 				F597874A23D0F49C003A4D7D /* Main.storyboard in Resources */,
 				F598523123DE9C050052CFF6 /* folder.png in Resources */,
 			);

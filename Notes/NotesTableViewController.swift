@@ -16,6 +16,7 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
     weak var delegate: MasterViewController?
     var detailViewController: DetailViewController? = nil
     var noteList = [Note]()
+    var folderList = [Folder]()
     var currNote : Note?
 
     // This is for the search bar
@@ -61,6 +62,8 @@ class NotesTableViewController: UITableViewController, UISearchResultsUpdating, 
         })()
 
             navigationItem.searchController = resultSearchController
+        
+        folderList = delegate!.folderList 
     }
 
     override func viewWillAppear(_ animated: Bool) {

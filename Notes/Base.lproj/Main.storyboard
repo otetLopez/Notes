@@ -151,6 +151,12 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="R45-wD-iVD"/>
+                        <barButtonItem image="tray.and.arrow.down" catalog="system" id="uwu-PZ-f5d">
+                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="movefolder:" destination="JEX-9P-axG" id="uf2-xg-a6X"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem image="camera" catalog="system" id="VY6-dL-re7">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -377,6 +383,7 @@
         <image name="camera" catalog="system" width="64" height="48"/>
         <image name="folder.badge.plus" catalog="system" width="64" height="42"/>
         <image name="square.and.pencil" catalog="system" width="64" height="58"/>
+        <image name="tray.and.arrow.down" catalog="system" width="64" height="54"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="zhg-NZ-nqD"/>

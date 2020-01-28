@@ -131,6 +131,8 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         }
         catch { print(error) }
         
+        note?.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
+        
         
         // Make sure keyboard hides after typing
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
@@ -180,7 +182,6 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             if !(notetitlefld.text?.isEmpty ?? true) {
                 note?.setTitle(title: notetitlefld.text!)
                 note?.setInfo(info: notecontent.text!)
-                note?.setFolder(folder: (delegate?.detailItem?.getFolderName())!)
             
                 if mod == true {
                     // We are editing existing note
@@ -266,6 +267,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
         notecontent.resignFirstResponder()
         var frame = self.notecontent.frame
         frame.size.height = 470//self.notecontent.contentSize.height
+        self.notecontent.isScrollEnabled = true
         self.notecontent.frame = frame
     }
     
@@ -376,8 +378,9 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
     func textViewDidBeginEditing(_ textView: UITextView) {
         donEditButton.title = "Done"
         var frame = self.notecontent.frame
-        frame.size.height = 200//self.notecontent.contentSize.height
+        frame.size.height = 20//self.notecontent.contentSize.height
         self.notecontent.frame = frame
+        self.notecontent.isScrollEnabled = true
     }
     
     @IBAction func setImage(_ sender: UIBarButtonItem) {
@@ -534,6 +537,46 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
           print("Panic! No Image!")
        }
     }
+    func isNameValid(fname: String) -> Bool {
+        let folderList = delegate!.folderList
+        for index in folderList {
+            print("\(index.getFolderName())")
+        }
+        for index in folderList {
+            
+            if index.getFolderName() == fname {
+                return true
+            }
+        }
+        return false
+    }
+    
+    @IBAction func movefolder(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: "Move to Folder", message: "Enter a name of the folder.", preferredStyle: .alert)
+        var nFolderName : UITextField?
+        
+        alertController.addTextField { (nFolderName) in
+            nFolderName.placeholder = "Folder Name"
+        }
+            
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        cancelAction.setValue(UIColor.orange, forKey: "titleTextColor")
+        
+        let moveItemAction = UIAlertAction(title: "Move Item", style: .default) { (action) in
+            let textField = alertController.textFields![0]
+            if self.isNameValid(fname: "\(textField.text!)") {
+                self.note!.setFolder(folder: "\(textField.text!)")
+            } else {
+                self.alertMessage(title: "Error", msg: "Folder does not exist" )
+            }
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(moveItemAction)
+           
+            
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     
     func saveImageToDocumentDirectory(_ chosenImage: UIImage) -> String {
         let directoryPath =  NSHomeDirectory().appending("/Documents/")
