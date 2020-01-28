@@ -341,7 +341,11 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, AVAudio
             alertMessage(title: "Cannot play audio!", msg: "This note either does not contain audio or you are still on record")
         } else {
             let audioFilename = audioSet!//getDocumentsDirectory().appendingPathComponent(filename!)
-            do { player = try AVAudioPlayer(contentsOf: audioFilename) }
+            do { player = try AVAudioPlayer(contentsOf: audioFilename)
+                //player.
+                let session = AVAudioSession.sharedInstance()
+                try session.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
+            }
             catch { print(error) }
             
             player.play() }
